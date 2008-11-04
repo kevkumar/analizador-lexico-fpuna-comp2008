@@ -27,6 +27,7 @@ public class Alfabeto {
     /**
      *Esta es la lista que contiene los caracteres del alfabeto efectivamente.
      *Consideraremos al vacio como un símbolo aparte.
+     *Los valores del ALFABETO DEBEN SER INTRODUCIDOS SEPARADOS POR COMA
      */
     private List caracteres;
     
