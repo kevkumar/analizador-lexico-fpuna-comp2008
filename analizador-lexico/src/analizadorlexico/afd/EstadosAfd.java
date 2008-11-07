@@ -1,5 +1,5 @@
 /*
- * Estados.java
+ * EstadosAfd.java
  *
  * Created on 4 de noviembre de 2008, 20:21
  *
@@ -12,11 +12,14 @@ package analizadorlexico.afd;
 /**
  *
  * @author Polo
+ *CONJUNTO DE ESTADOS DE UN AFD
  */
-public class Estados {
+public class EstadosAfd {
     
-    /** Creates a new instance of Estados */
-    public Estados() {
+    /**
+     * Creates a new instance of EstadosAfd
+     */
+    public EstadosAfd() {
     }
     
 }
