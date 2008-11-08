@@ -8,6 +8,7 @@
  */
 
 package analizadorlexico;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,16 +18,45 @@ package analizadorlexico;
 public class Estado {
     
     /** Creates a new instance of Estado */
-    public Estado() {
+    public Estado(int id) {
+        this.idEstado =id;
+        arcos = new ArrayList<Estado>();
     }
     //ID DE UN ESTADO
-    int idEstado;
+    private int idEstado;
     
     //EL ESTADO FUE MARCADO O NO?
-    boolean marcado;
+    private boolean marcado;
     
     //ARCOS Q SALEN Y A DONDE VAN
-    Arcos arcos;
+    private ArrayList<Arco> arcos;
+    
+    
+
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public boolean isMarcado() {
+        return marcado;
+    }
+
+    public void setMarcado(boolean marcado) {
+        this.marcado = marcado;
+    }
+
+    public ArrayList<Arco> getArcos() {
+        return arcos;
+    }
+
+    public void setArcos(ArrayList<Arco> arcos) {
+        this.arcos = arcos;
+    }
+    
     
     
     
