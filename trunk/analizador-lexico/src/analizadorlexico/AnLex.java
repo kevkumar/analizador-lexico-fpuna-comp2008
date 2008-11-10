@@ -1,5 +1,5 @@
 /*
- * ExprReg.java
+ * AnLex.java
  *
  * Created on 4 de noviembre de 2008, 13:26
  *
@@ -15,10 +15,12 @@ import com.sun.org.apache.bcel.internal.generic.SWITCH;
  *
  * @author Propietario
  */
-public class ExprReg {
+public class AnLex {
     
-    /** Creates a new instance of ExprReg */
-    public ExprReg() {
+    /**
+     * Creates a new instance of AnLex
+     */
+    public AnLex() {
     }
     
     private String expr;
@@ -27,7 +29,7 @@ public class ExprReg {
      */
     private Alfabeto alfabeto;
     
-    public ExprReg(String expr, Alfabeto alfabeto) {
+    public AnLex(String expr, Alfabeto alfabeto) {
         this.expr = expr;
         this.alfabeto = alfabeto;
     }

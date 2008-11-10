@@ -31,6 +31,11 @@ public class Afn {
     private Estado [][] matriz;
     
     /** Creates a new instance of Afn */
+    public Afn(String expReg, Alfabeto alf) {
+        this.expReg = expReg;
+        this.alfabeto = alf;
+        this.estados = new SetEstados();
+    }
     public Afn() {
     }
 
@@ -81,5 +86,7 @@ public class Afn {
     public void setMatriz(Estado[][] matriz) {
         this.matriz = matriz;
     }
+    
+    
     
 }
