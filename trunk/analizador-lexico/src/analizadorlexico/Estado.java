@@ -30,9 +30,8 @@ public class Estado {
     
     //ARCOS Q SALEN Y A DONDE VAN
     private ArrayList<Arco> arcos;
+           
     
-    
-
     public int getIdEstado() {
         return idEstado;
     }
