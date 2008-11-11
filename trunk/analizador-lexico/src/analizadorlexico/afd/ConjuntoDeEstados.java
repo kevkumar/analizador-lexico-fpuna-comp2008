@@ -5,10 +5,16 @@
 
 package analizadorlexico.afd;
 
+import analizadorlexico.Estado;
+
 /**
  *
  * @author Polo
  */
 class ConjuntoDeEstados {
+
+    void addEstado(Estado inicio) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 
 }
