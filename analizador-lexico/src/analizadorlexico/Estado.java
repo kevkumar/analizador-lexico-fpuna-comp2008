@@ -20,7 +20,7 @@ public class Estado {
     /** Creates a new instance of Estado */
     public Estado(int id) {
         this.idEstado =id;
-        arcos = new ArrayList<Estado>();
+        arcos = new ArrayList<Arco>();
     }
     //ID DE UN ESTADO
     private int idEstado;
