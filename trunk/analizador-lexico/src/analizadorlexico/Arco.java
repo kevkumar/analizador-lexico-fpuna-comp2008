@@ -15,7 +15,7 @@ package analizadorlexico;
  */
 public class Arco {
     //IDENTIFICADOR DEL ARCO
-    private int idArco;
+    private String idArco;
     
     //ORIGEN DEL ESTADO(GENERALMENTE EL QUE LO INSTANCIA)
     private Estado origen;
@@ -24,17 +24,17 @@ public class Arco {
     private Estado destino;
     
     /** Creates a new instance of Arco */
-    public Arco(int idArco, Estado origen, Estado destino) {
+    public Arco(String idArco, Estado origen, Estado destino) {
         this.setIdArco(idArco);
         this.setOrigen(origen);
         this.setDestino(destino);
     }
 
-    public int getIdArco() {
+    public String getIdArco() {
         return idArco;
     }
 
-    public void setIdArco(int idArco) {
+    public void setIdArco(String idArco) {
         this.idArco = idArco;
     }
 
