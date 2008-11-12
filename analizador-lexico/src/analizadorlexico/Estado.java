@@ -26,10 +26,16 @@ public class Estado {
     private int idEstado;
     
     //EL ESTADO FUE MARCADO O NO?
-    private boolean marcado;
+    private boolean marcado =false;
     
     //ARCOS Q SALEN Y A DONDE VAN
     private ArrayList<Arco> arcos;
+    
+    //ES ESTADO FINAL?
+    private boolean eFinal=false;
+    
+    //ES ESTADO INICIAL?
+    private boolean eInicial=false;
            
     
     public int getIdEstado() {
@@ -54,6 +60,22 @@ public class Estado {
 
     public void setArcos(ArrayList<Arco> arcos) {
         this.arcos = arcos;
+    }
+
+    public boolean isEFinal() {
+        return eFinal;
+    }
+
+    public void setEFinal(boolean eFinal) {
+        this.eFinal = eFinal;
+    }
+
+    public boolean isEInicial() {
+        return eInicial;
+    }
+
+    public void setEInicial(boolean eInicial) {
+        this.eInicial = eInicial;
     }
     
     
