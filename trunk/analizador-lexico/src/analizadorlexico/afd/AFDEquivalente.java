@@ -18,6 +18,7 @@ import analizadorlexico.Estado;
 import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Stack;
 
@@ -167,8 +168,38 @@ public class AFDEquivalente {
         construirMatriz();
     }
 
+    /**
+     * Metodo privado para contruir la matriz de adyacencia
+     */    
     private void construirMatriz() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        //throw new UnsupportedOperationException("Not yet implemented");
+        adyacencia = new String[estadosMarcados.size()][estadosMarcados.size()];
+        ConjuntoDeEstados conjunto;
+        ArrayList valores;
+        Enumeration enumeracion = this.transiciones.getClaves(); 
+        HashNodeTransicion nodo;        
+        int origen;
+        int destino;
+        String elemento = "";
+        
+        while(enumeracion.hasMoreElements()){
+            conjunto = (ConjuntoDeEstados) enumeracion.nextElement();
+            valores = (ArrayList) transiciones.getValue(conjunto); 
+                        
+            origen = conjunto.getInicio();
+            
+            for(Object iteracion : valores){
+                
+                nodo = (HashNodeTransicion)iteracion;
+                destino = nodo.getEstadosDestino().getInicio(); 
+                if (destino != -1) {
+                    elemento = adyacencia[origen][destino];
+                    if(elemento == null) elemento = "";
+                    adyacencia[origen][destino] = elemento + nodo.getEntrada(); 
+                }
+            }
+            
+        }
     }
     
     /** Metodo Privado : para obtener un desmarcado y marcarlo
@@ -218,6 +249,23 @@ public class AFDEquivalente {
     }
 
     /**
+     * @return Imprime estados finales
+     */
+    private String imprimirEstadosFinales() {        
+        //throw new UnsupportedOperationException("Not yet implemented");
+        String respuesta = "";
+        int indice = 0;
+        for(ConjuntoDeEstados estados : estadosFinales){                    
+            indice++;
+            respuesta = respuesta + estados.getInicio();
+            if (!(indice == (estadosFinales.size()))) {
+                respuesta = respuesta + ", ";
+            }
+        }
+        return respuesta;
+    }
+
+    /**
      * @param estadoFinal - Estado final del afn
      */
     private void procesarEstadosFinales(Estado estadoFinal) {
@@ -228,4 +276,30 @@ public class AFDEquivalente {
             }
         }
     }
+    
+    
+    /**
+     * 
+     * @return Imprime el AFD
+     */
+    public String imprimir() {
+        String respuesta = "";
+        String espacio = "    ";
+        
+        respuesta = "Estado inicial:" + espacio + estadoInicial.getInicio();
+        respuesta = respuesta + "\n\nEstados finales:" + espacio + "{ ";
+        respuesta = respuesta + imprimirEstadosFinales() + " }";
+        respuesta = respuesta + "\n\nConjunto de Estados:" + espacio + "{ ";
+        int indice = 0;
+        for(ConjuntoDeEstados conjunto : estadosMarcados){        
+            indice++;
+            respuesta = respuesta + conjunto.getInicio();
+            if (!(indice == (estadosMarcados.size()))) {
+                respuesta = respuesta + ", ";
+            }
+        }
+        respuesta = respuesta + " }";
+        
+        return respuesta;        
+    }        
 }
