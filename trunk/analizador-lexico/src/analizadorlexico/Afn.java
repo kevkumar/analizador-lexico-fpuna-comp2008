@@ -182,10 +182,17 @@ public class Afn {
      *Lleva a cabo las operaciones binarias de thompson
      * 1-REALIZA LA OPERACIÓN DE THOMPSON "|" QUE SERÍA UN OR
      * 2-REALIZA LA OPERACIÓN DE THOMPSON "ab" QUE SERIA UN a AND b
-     * @param afn AFN sobre el cual se trabaja
+     * @param afn AFN sobre el cual se trabaja para unirlo con el afn que llama
+     * a la función(this).
      * @param tipo Tipo de operador que se debe realizar, 1 indica |, 2 indica and
      */
-    public void thompsonOpsBinarias(Afn afn, int tipo){
+    public void thompsonOpsBinarias(Afn afnAUnir, int tipo){
+        /*Si el tipo es 1, debemos hacer un or entre los 2 afn's con los que
+         *trabajamos*/
+        if(tipo == 1){
+            Estado eInicialNuevo = new Estado(0);
+            Estado eFinalNuevo = new Estado(this.estados.getEstados().size()+afnAUnir.estados.getEstados().size()+1);
+        }
         
     }
     
