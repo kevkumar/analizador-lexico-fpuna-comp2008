@@ -292,15 +292,22 @@ public class Afn {
     /**
      * ESTA FUNCIÓN NOS PERMITE AJUSTAR LA NUMERACIÓN DE LOS ESTADOS PARA CUANDO
      * INSERTAMOS ESTADOS Y HACE FALTA RE-ENUMERAR LOS ID DE LOS MISMOS
-     * @param valor valor o cantidad que se debe sumar a los id de cada estados, 
+     * @param valor valor o cantidad que se debe sumar a los id de cada estados,
      * de acuerdo a la cantidad de estados que se agregan antes.
      */
-     public void ajustarId(int valor){
+    public void ajustarId(int valor){
         Iterator it = this.getEstados().getEstados().iterator();
         while (it.hasNext()){
             Estado estadoAux = (Estado) it.next();
             estadoAux.setIdEstado(estadoAux.getIdEstado()+ valor);
         }
+    }
+    /**
+     *Esta función nos permite crear la matriz de estados
+     * 
+     **/
+    public void cargaMatriz(){
+        System.out.println("No implementado aún");
     }
     
     

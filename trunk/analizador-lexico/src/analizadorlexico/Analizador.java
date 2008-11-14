@@ -15,13 +15,13 @@ package analizadorlexico;
  *Esta clase hace uso de la clase AFN para resolver la expresión regular y devolver
  *un AFN con sus estados.
  *BNF
- * ExpReg ->  simple A
- * Aux -> "|" simple A | E
- * simple -> basico B
- * B -> basico B | E
+ * ExpReg ->  simple Aux
+ * Aux -> "|" simple Aux | E
+ * simple -> basico Aux2
+ * Aux2 -> basico Aux2 | E
  * basico -> lista op
  * op -> * | + | ? | E
- * list ->agrupacion | alfabeto
+ * lista ->agrupacion | alfabeto
  * agrupacion -> "(" ExpReg ")"
  * alfabeto -> [letras del alfabeto]
  */
@@ -59,7 +59,11 @@ public class Analizador {
     
     /* AHORA EMPEZAMOS A RESOLVER CADA UNA DE LAS PRODUCCIONES DEL BNF*/
     
-    
+    /**Resuelve la producción inicial, llamando adecuadamente a las demas
+     *producciones, las cuales utilizan los operadores de thompson */
+    public void expReg(){
+        
+    }
     
 
     public String getExpReg() {
