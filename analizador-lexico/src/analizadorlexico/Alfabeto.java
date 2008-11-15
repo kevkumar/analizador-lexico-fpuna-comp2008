@@ -9,6 +9,7 @@
 
 package analizadorlexico;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class Alfabeto {
      * Creates a new instance of Alfabeto
      */
     public Alfabeto() {
+        this.caracteres = new ArrayList();
     }
     /**
      *Esta es la lista que contiene los caracteres del alfabeto efectivamente.

@@ -43,12 +43,18 @@ public class Afn {
         this.expReg = expReg;
         this.alfabeto = alf;
         this.estados = new SetEstados();
+        this.estadoInicial = new Estado();
+        this.estadoFinal = new Estado();
+        
     }
     
     /**
      * Constructor vacio
      */
-    public Afn() {
+    public Afn() {        
+        this.estados = new SetEstados();
+        this.estadoInicial = new Estado();
+        this.estadoFinal = new Estado();
     }
     
     /*CREAMOS LAS CONSTRUCCIONES DE THOMPSON PARA CADA UNO DE LOS OPERADORES*/
@@ -444,6 +450,12 @@ public class Afn {
      */
     public void setMatriz(Estado[][] matriz) {
         this.matriz = matriz;
+    }
+    
+    public Afn generar(){
+        Analizador an = new Analizador(this.expReg, this.alfabeto);
+        Afn retorno = an.analizar();
+        return retorno;
     }
     
 }

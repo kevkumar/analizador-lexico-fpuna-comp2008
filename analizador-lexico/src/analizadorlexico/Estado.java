@@ -16,6 +16,11 @@ import java.util.ArrayList;
  *AQUI DEFINIMOS UN ESTADO, CON SUS ATRIBUTOS CORRESPONDIENTES
  */
 public class Estado {
+
+    public Estado() {
+    }
+    
+    
     
     /** Creates a new instance of Estado */
     public Estado(int id) {

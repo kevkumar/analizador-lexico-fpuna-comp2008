@@ -12,7 +12,7 @@ package analizadorlexico;
 /**
  *
  * @author Huguis
- *Esta clase hace uso de la clase AFN para resolver la expresión regular y devolver
+ *Esta clase hace uso de la clase AFN para resolver la expresiï¿½n regular y devolver
  *un AFN con sus estados.
  *BNF
  * ExpReg ->  simple Aux1
@@ -31,7 +31,7 @@ public class Analizador {
     private AnLex anLexico;
     private Afn afn;
     private Caracter preanalisis;
-    /*Posición dentro de la Cadena*/
+    /*Posiciï¿½n dentro de la Cadena*/
     private int pos;
     /** Creates a new instance of Analizador */
     public Analizador(String expReg, Alfabeto alfabeto) {
@@ -41,7 +41,7 @@ public class Analizador {
         this.setAfn(new Afn());
         this.setPreanalisis(this.getAnLexico().sgteCaracter());
         if(this.getPreanalisis().getValor().compareTo("") == 0){
-            System.err.println("Error en el primer caracter de la expresión regular");
+            System.err.println("Error en el primer caracter de la expresiï¿½n regular");
             System.exit(2);
         }
         this.setPos(0);
@@ -54,14 +54,14 @@ public class Analizador {
             this.setPreanalisis(this.anLexico.sgteCaracter());
             this.setPos(this.pos++);
         }else{
-            System.err.println("Error en la posición"+ this.getPos()+"en el Analizador.java");
+            System.err.println("Error en la posiciï¿½n"+ this.getPos()+"en el Analizador.java");
             System.exit(2);
         }
     }
     
     /* AHORA EMPEZAMOS A RESOLVER CADA UNA DE LAS PRODUCCIONES DEL BNF*/
     
-    /**Resuelve la producción inicial, llamando adecuadamente a las demas
+    /**Resuelve la producciï¿½n inicial, llamando adecuadamente a las demas
      *producciones, las cuales utilizan los operadores de thompson */
     public Afn expReg(){
         Afn afn1=null;
@@ -70,13 +70,13 @@ public class Analizador {
         afn2 = this.aux1();
         /*Debemos verificar si su resultado no es "E"-vacio, porque
          *si no lo fuera debemos concatenarlo con or con el automata generado en simple()
-         *puesto que asi cumplimos con nuestras produccíones.*/
+         *puesto que asi cumplimos con nuestras produccï¿½ones.*/
         if(afn1!=null && afn2!=null){
             afn1.thompsonOpsBinarias(afn2,1);
         }
         this.setAfn(afn1);
         this.afn.setAlfabeto(this.alfabeto);
-        /**Seteamos al resultante con la verdadera expresión regular resultante*/
+        /**Seteamos al resultante con la verdadera expresiï¿½n regular resultante*/
         this.afn.setExpReg(this.expReg);
         
         return afn1;
@@ -96,7 +96,7 @@ public class Analizador {
     public Afn basico(){
         Afn afnb1=null;
         afnb1 = lista();
-        /*Al resultado de ejecutar lista le aplicamos algún operador unario*/
+        /*Al resultado de ejecutar lista le aplicamos algï¿½n operador unario*/
         if(afnb1 != null){
             String operacion = this.preanalisis.getValor().trim();
             if(operacion.equals("*")){
@@ -133,12 +133,12 @@ public class Analizador {
         
         return afna1;
     }
-    /*VERIFICAR A FONDO ESTA FUNCIÓN SI FUNCIONA*/
+    /*VERIFICAR A FONDO ESTA FUNCIï¿½N SI FUNCIONA*/
     public Afn alfabeto(){
         Afn afnAlf1=null;
         if(!this.preanalisis.getValor().trim().equals("$")){
-            //LLamamos a la función que crea un AFN que va de un estado
-            //a otro por medio de la transición de preanalisis.
+            //LLamamos a la funciï¿½n que crea un AFN que va de un estado
+            //a otro por medio de la transiciï¿½n de preanalisis.
             afnAlf1=construirAfnSimple(this.preanalisis.getValor());
             this.match(this.preanalisis);
         }
@@ -230,6 +230,15 @@ public class Analizador {
         retorno.getEstados().getEstados().add(estado2);
         retorno.setEstadoInicial(estado1);
         retorno.setEstadoFinal(estado2);
+        return retorno;
+    }
+    
+    public Afn analizar(){
+        this.preanalisis = this.anLexico.sgteCaracter();
+        Afn retorno = null;
+        while(!this.preanalisis.getValor().equals("$")){
+            retorno = this.expReg();
+        }
         return retorno;
     }
     
