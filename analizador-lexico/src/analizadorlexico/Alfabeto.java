@@ -40,7 +40,6 @@ public class Alfabeto {
     public void cargarAlfabeto(String caracteres){
         String[] valores= caracteres.split(",");
         for (int i=0; i < valores.length; i++){
-            
             if(valores[i].trim().equals("E")){
                 this.setHayVacio(true);
                 break;

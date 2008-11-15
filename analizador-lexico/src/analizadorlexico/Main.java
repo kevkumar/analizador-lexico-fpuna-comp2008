@@ -28,8 +28,8 @@ public class Main {
         alf.cargarAlfabeto("a,b,E");
         alf.setHayVacio(true);                
         
-        Afn a = new Afn("aab$", alf);
-        a.generar();
+        Afn a = new Afn("aab|b$", alf);
+        a = a.generar();
         
         System.out.println(a.imprimir());
     }
