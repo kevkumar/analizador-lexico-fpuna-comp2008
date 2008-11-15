@@ -17,7 +17,7 @@ import java.util.Iterator;
  * AQUI IMPLEMENTAMOS EL AUTOMATA FINITO NO DETERMINISTA, PARA ESTO UTILIZAMOS
  * LOS OPERADORES DEFINIDOS POR THOMPSON E IMPLEMENTAMOS SU ALGORITMO.
  * COMO SABEMOS UN AFN CONSTA DE:
- * 1- UNA EXPRESIÓN REGULAR
+ * 1- UNA EXPRESIï¿½N REGULAR
  * 2- DE UN CONJUNTO DE ESTADOS
  * 3- UN ESTADO INICIAL
  * 4- UN CONJUNTO DE ESTADOS FINALES(solo uno)
@@ -34,10 +34,11 @@ public class Afn {
     /*matriz de estados que genera un AFN*/
     private Estado [][] matriz;
     
-    /** Creamos una nueva instancia de AFN, donde se recibe la expresión 
+    /** Creamos una nueva instancia de AFN, donde se recibe la expresiï¿½n 
      *regular de entrada y el alfabeto.
+     * @param expReg 
+     * @param alf 
      */
-    
     public Afn(String expReg, Alfabeto alf) {
         this.expReg = expReg;
         this.alfabeto = alf;
@@ -53,9 +54,9 @@ public class Afn {
     /*CREAMOS LAS CONSTRUCCIONES DE THOMPSON PARA CADA UNO DE LOS OPERADORES*/
     
     /**
-     * 1-REALIZA LA OPERACIÓN DE THOMPSON "?" PARA CERO O UNA APARICIÓN
-     * 2-REALIZA LA OPERACIÓN DE THOMPSON "+" 1 O MAS APARICIONES
-     * 3-REALIZA LA OPERACIÓN DE THOMPSON "*" PARA CERO O UNA APARICIÓN
+     * 1-REALIZA LA OPERACIï¿½N DE THOMPSON "?" PARA CERO O UNA APARICIï¿½N
+     * 2-REALIZA LA OPERACIï¿½N DE THOMPSON "+" 1 O MAS APARICIONES
+     * 3-REALIZA LA OPERACIï¿½N DE THOMPSON "*" PARA CERO O UNA APARICIï¿½N
      * @param afn AFN sobre el cual se trabaja
      * @param tipo Tipo de operador que se debe realizar, 1 indica ?, 2 indica +, 3 indica *
      */
@@ -74,19 +75,19 @@ public class Afn {
             
             /*arco con vacio*/
             Arco arco1 = new Arco("E",eInicialNuevo,this.estadoInicial);
-            /*añadimos el enlace entre el estado inicial nuevo y el que paso a ser
+            /*aï¿½adimos el enlace entre el estado inicial nuevo y el que paso a ser
              *segundo*/
             eInicialNuevo.getArcos().add(arco1);
             
             /*arco con vacio*/
             Arco arco2 = new Arco("E",eInicialNuevo,eFinalNuevo);
-            /*añadimos el enlace entre el estado inicial nuevo, y el estado final
+            /*aï¿½adimos el enlace entre el estado inicial nuevo, y el estado final
              *nuevo*/
             eInicialNuevo.getArcos().add(arco2);
             
             /*arco con vacio*/
             Arco arco3 = new Arco("E",this.estadoFinal,eFinalNuevo);
-            /*añadimos el enlace entre el estado final viejo, y el estado final
+            /*aï¿½adimos el enlace entre el estado final viejo, y el estado final
              *nuevo*/
             this.getEstadoFinal().getArcos().add(arco3);
             
@@ -110,19 +111,19 @@ public class Afn {
             
             /*arco con vacio*/
             Arco arco1 = new Arco("E",eInicialNuevo,this.estadoInicial);
-            /*añadimos el enlace entre el estado inicial nuevo y el que paso a ser
+            /*aï¿½adimos el enlace entre el estado inicial nuevo y el que paso a ser
              *segundo*/
             eInicialNuevo.getArcos().add(arco1);
             
             /*arco con vacio*/
             Arco arco2 = new Arco("E",this.getEstadoFinal(),this.getEstadoInicial());
-            /*añadimos el enlace entre el estado final viejo, y el estado inicial
-             *viejo, esto es para que se de la oportunidad de 1 o más veces.*/
+            /*aï¿½adimos el enlace entre el estado final viejo, y el estado inicial
+             *viejo, esto es para que se de la oportunidad de 1 o mï¿½s veces.*/
             this.getEstadoFinal().getArcos().add(arco2);
             
             /*arco con vacio*/
             Arco arco3 = new Arco("E",this.estadoFinal,eFinalNuevo);
-            /*añadimos el enlace entre el estado final viejo, y el estado final
+            /*aï¿½adimos el enlace entre el estado final viejo, y el estado final
              *nuevo*/
             this.getEstadoFinal().getArcos().add(arco3);
             
@@ -147,19 +148,19 @@ public class Afn {
             
             /*arco con vacio*/
             Arco arco1 = new Arco("E",eInicialNuevo,this.estadoInicial);
-            /*añadimos el enlace entre el estado inicial nuevo y el que paso a ser
+            /*aï¿½adimos el enlace entre el estado inicial nuevo y el que paso a ser
              *segundo*/
             eInicialNuevo.getArcos().add(arco1);
             
             /*arco con vacio*/
             Arco arco2 = new Arco("E",this.getEstadoFinal(),this.getEstadoInicial());
-            /*añadimos el enlace entre el estado final viejo, y el estado inicial
-             *viejo, esto es para que se de la oportunidad de 1 o más veces.*/
+            /*aï¿½adimos el enlace entre el estado final viejo, y el estado inicial
+             *viejo, esto es para que se de la oportunidad de 1 o mï¿½s veces.*/
             this.getEstadoFinal().getArcos().add(arco2);
             
             /*arco con vacio*/
             Arco arco3 = new Arco("E",this.estadoFinal,eFinalNuevo);
-            /*añadimos el enlace entre el estado final viejo, y el estado final
+            /*aï¿½adimos el enlace entre el estado final viejo, y el estado final
              *nuevo*/
             this.getEstadoFinal().getArcos().add(arco3);
             
@@ -171,8 +172,8 @@ public class Afn {
             this.getEstadoInicial().setEInicial(true);
             this.getEstadoFinal().setEFinal(true);
             
-            /*ahora añadimos un enlace vacio entre el inicio nuevo y el fin nuevo
-             *para asegurar de que podría darse la no aparición*/
+            /*ahora aï¿½adimos un enlace vacio entre el inicio nuevo y el fin nuevo
+             *para asegurar de que podrï¿½a darse la no apariciï¿½n*/
             Arco arco4 = new Arco("E",this.getEstadoInicial(),this.getEstadoFinal());
             this.getEstadoInicial().getArcos().add(arco4);
             
@@ -180,10 +181,10 @@ public class Afn {
     }
     /**
      *Lleva a cabo las operaciones binarias de thompson
-     * 1-REALIZA LA OPERACIÓN DE THOMPSON "|" QUE SERÍA UN OR
-     * 2-REALIZA LA OPERACIÓN DE THOMPSON "ab" QUE SERIA UN a AND b
-     * @param afn AFN sobre el cual se trabaja para unirlo con el afn que llama
-     * a la función(this).
+     * 1-REALIZA LA OPERACIï¿½N DE THOMPSON "|" QUE SERï¿½A UN OR
+     * 2-REALIZA LA OPERACIï¿½N DE THOMPSON "ab" QUE SERIA UN a AND b
+     * @param afnAUnir sobre el cual se trabaja para unirlo con el afn que llama
+     * a la funciï¿½n(this).
      * @param tipo Tipo de operador que se debe realizar, 1 indica |, 2 indica and
      */
     public void thompsonOpsBinarias(Afn afnAUnir, int tipo){
@@ -194,7 +195,7 @@ public class Afn {
             Estado eFinalNuevo = new Estado(this.estados.getEstados().size()+ 
                 afnAUnir.estados.getEstados().size()+1);
             
-            /*Ahora lo que se hace es crear los clásicos enlaces vacios que
+            /*Ahora lo que se hace es crear los clï¿½sicos enlaces vacios que
              *propone thompson entre el nuevo inicio y los dos inicios de cada
              *uno de los automatas(this y afnAUnir*/
             Arco arco1 = new Arco("E",eInicialNuevo,this.getEstadoInicial());
@@ -203,7 +204,7 @@ public class Afn {
             Arco arco2 = new Arco("E",eInicialNuevo,afnAUnir.getEstadoInicial());
             eInicialNuevo.getArcos().add(arco2);
             
-            /*Ahora lo que se hace es crear los clásicos enlaces vacios que
+            /*Ahora lo que se hace es crear los clï¿½sicos enlaces vacios que
              *propone thompson entre el fin de cada uno de los automatas(this y
              *afnAUnir) y el nuevo estado final.*/
             Arco arco3 = new Arco("E",this.estadoFinal,eFinalNuevo);
@@ -215,7 +216,7 @@ public class Afn {
             /* Ahora restablecemos quienes son estados finales e iniciales
              * respectivamente, los estados finales e iniciales de los 2 automatas
              * en cuestion ya no los son, ahora los nuevos iniciales son los creados
-             * más arriba*/
+             * mï¿½s arriba*/
             this.estadoInicial.setEInicial(false);
             this.estadoFinal.setEFinal(false);
             
@@ -227,9 +228,9 @@ public class Afn {
             
             /*Nos queda unir el afn this al afn recibido como parametro, para 
              *hacer esto, primero ajustamos los id's de los estados, para que luego
-             *de la unión estos queden correctamente numerados*/
+             *de la uniï¿½n estos queden correctamente numerados*/
             this.ajustarId(1);//para compensar el estado inicial
-            //para compensar el añadido del primer automata al inicio de este.
+            //para compensar el aï¿½adido del primer automata al inicio de este.
             afnAUnir.ajustarId(this.estados.getEstados().size()+1);
             
             /* Ahora procedemos a unir ambos automatas para lo cual tomamos cada
@@ -246,16 +247,16 @@ public class Afn {
         }else if(tipo == 2){
             /*Lo primero que hacemos es ajustar los id's de los estados del afnAUnir
              *para poder juntarlo con this.
-             *Lo que hacemos es restar 1 porque el último estado de this no se utiliza
-             * más*/
+             *Lo que hacemos es restar 1 porque el ï¿½ltimo estado de this no se utiliza
+             * mï¿½s*/
             afnAUnir.ajustarId(this.estados.getEstados().size() - 1);
             
-            /*Tenemos 2 opciones, una es ignorar el último estado de this o ignorar
-             el primer estado de afnAUnir al construir this, la opción que
+            /*Tenemos 2 opciones, una es ignorar el ï¿½ltimo estado de this o ignorar
+             el primer estado de afnAUnir al construir this, la opciï¿½n que
              usaremos es la primera, para la cual debemos poner todos los enlaces que
-             tenía el inicial del 2º automata con el fin del primer automata.
+             tenï¿½a el inicial del 2ï¿½ automata con el fin del primer automata.
              Es decir, convertimos al nodo final del primer automata en el inicial
-             del 2º. Entonces, cambiamos los enlaces con un iterador*/
+             del 2ï¿½. Entonces, cambiamos los enlaces con un iterador*/
             
             
             Iterator<Arco> it = afnAUnir.estadoInicial.getArcos().iterator();
@@ -265,10 +266,10 @@ public class Afn {
                 this.estadoFinal.getArcos().add(aux);
             }
             /*Ahora iteramos sobre afnAUnir y metemos los estados en this, con 
-             *excepción del primero, cuyos enlaces ya fueron cambiados.*/
+             *excepciï¿½n del primero, cuyos enlaces ya fueron cambiados.*/
             Iterator<Estado> itEstados = afnAUnir.estados.getEstados().iterator();
             while(itEstados.hasNext()){
-                /*Si algún estado apuntaba al estado inicial de afnAUnir, lo cambiamos
+                /*Si algï¿½n estado apuntaba al estado inicial de afnAUnir, lo cambiamos
                  *para que apunte al final de this..*/
                 Estado estadoAux = itEstados.next();
                 Iterator<Arco> itArco = itEstados.next().getArcos().iterator();
@@ -290,7 +291,7 @@ public class Afn {
     }
     
     /**
-     * ESTA FUNCIÓN NOS PERMITE AJUSTAR LA NUMERACIÓN DE LOS ESTADOS PARA CUANDO
+     * ESTA FUNCIï¿½N NOS PERMITE AJUSTAR LA NUMERACIï¿½N DE LOS ESTADOS PARA CUANDO
      * INSERTAMOS ESTADOS Y HACE FALTA RE-ENUMERAR LOS ID DE LOS MISMOS
      * @param valor valor o cantidad que se debe sumar a los id de cada estados,
      * de acuerdo a la cantidad de estados que se agregan antes.
@@ -303,13 +304,48 @@ public class Afn {
         }
     }
     /**
-     *Esta función nos permite crear la matriz de estados
+     *Esta funciï¿½n nos permite crear la matriz de estados
      * 
      **/
-    public void cargaMatriz(){
-        System.out.println("No implementado aún");
+//    public void cargaMatriz(){
+//        int n = this.getEstados().getEstados().size();
+//        this.matriz = new Estado[n][n];
+//        for (int i = 0; i < n; i++) {
+//            Estado tmp = estados.getEstado(i);
+//            ConjuntoArcos ca = tmp.getConjuntoArcos();
+//            for (int k = 0; k < ca.cantidad(); k++) {
+//               Arco a = ca.getArco(k);
+//               int m = a.getDestino().getNombre();
+//               //matrizAdyacencia[i][m] = a.getNombre();
+//               String nom = a.getNombre();
+//               if(matrizAdyacencia[i][m] == null)
+//                   matrizAdyacencia[i][m] = nom;
+//               else
+//                   matrizAdyacencia[i][m] = matrizAdyacencia[i][m] + nom;
+//            }
+//        }
+//    }
+    /**
+     * Imprime el afn en cuestiÃ³n
+     * */
+    public String imprimir() {
+        String resp;
+        String tabulador = "    ";
+        
+        resp = "Alfabeto:" + tabulador + this.getAlfabeto().imprimir();
+        resp = resp + "\n\nEstado inicial:" + tabulador + this.estadoInicial.getIdEstado();
+        resp = resp + "\n\nEstados finales:";
+        resp = resp + tabulador + "{ " + this.estadoFinal.getIdEstado() + " }";
+        resp = resp + "\n\nConjunto de Estados:" + tabulador + "{ ";
+        for (int j=0; j < this.estados.getEstados().size(); j++) {
+            resp = resp + (estados.getEstados().get(j).getIdEstado());
+            if (! (j == (this.getEstados().getEstados().size() - 1)) ) {
+                resp = resp + ", ";
+            }
+        }
+        resp = resp + " }";
+        return resp;
     }
-    
     
     /*
      *SETTERS Y GETTERS

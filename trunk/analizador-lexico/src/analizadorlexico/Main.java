@@ -24,13 +24,15 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String saludo = "h";
-        System.out.println(saludo.substring(0,1).trim());
-        saludo = saludo.substring(1).trim();
-        if(saludo.isEmpty()){
-            System.out.println("Esta vacio");
-        }
-        System.out.println(saludo);
+//        String saludo = "h";
+//        System.out.println(saludo.substring(0,1).trim());
+//        saludo = saludo.substring(1).trim();
+//        if(saludo.isEmpty()){
+//            System.out.println("Esta vacio");
+//        }
+//        System.out.println(saludo);
+        
+        
     }
     
 }

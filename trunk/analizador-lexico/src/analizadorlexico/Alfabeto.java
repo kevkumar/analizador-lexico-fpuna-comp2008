@@ -12,8 +12,8 @@ package analizadorlexico;
 import java.util.List;
 
 /**
- *Esta clase nos permitira definir y cargar datos de los alfabetos que utilizarán
- *las expresiones regulares que luego serán analizadas.
+ *Esta clase nos permitira definir y cargar datos de los alfabetos que utilizarï¿½n
+ *las expresiones regulares que luego serï¿½n analizadas.
  * @author Huguis
  *
  */
@@ -26,7 +26,7 @@ public class Alfabeto {
     }
     /**
      *Esta es la lista que contiene los caracteres del alfabeto efectivamente.
-     *Consideraremos al vacio como un símbolo aparte.
+     *Consideraremos al vacio como un sï¿½mbolo aparte.
      *Los valores del ALFABETO DEBEN SER INTRODUCIDOS SEPARADOS POR COMA
      */
     private List caracteres;
@@ -71,6 +71,20 @@ public class Alfabeto {
         this.hayVacio = hayVacio;
     }
     
-    
+    /**
+     * 
+     * @return 
+     */
+    public String imprimir() {
+        String resp = "Alfabeto = { ";
+        for (int i = 0; i < this.caracteres.size(); i++) {
+            resp = resp + (String) this.getCaracteres().get(i);
+            if (!(i == (this.caracteres.size()-1))) {
+                resp = resp + ", ";
+            }
+        }
+        resp = resp + " } ";
+        return resp;
+    }
     
 }

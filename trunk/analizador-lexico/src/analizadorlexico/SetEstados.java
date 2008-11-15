@@ -9,6 +9,7 @@
 
 package analizadorlexico;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  *
@@ -39,8 +40,21 @@ public class SetEstados {
     public void ordenar() {       
         Estado a[] = new Estado[1]; 
         a = (Estado []) estados.toArray(a);
-        Comparator comp = new Comparator();
-        java.util.Arrays.sort(a,);
+        Comparator comparator = new Comparator(){
+            public int compare(Object o1, Object o2) {
+                Estado c1 = (Estado) o1;
+                Estado c2 = (Estado) o2;
+                if(c1 != null && c2 != null){
+                    if(c1.getIdEstado() > c2.getIdEstado())
+                        return 1;
+                    else if(c2.getIdEstado() > c1.getIdEstado())
+                        return -1;
+                    return 0;
+                }
+                return 0;
+            }
+        };
+        java.util.Arrays.sort(a,comparator);
         estados.removeAll(estados);
         for(int i = 0; i < a.length; i++) {
             estados.add(a[i]); 
