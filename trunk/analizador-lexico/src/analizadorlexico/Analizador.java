@@ -149,8 +149,8 @@ public class Analizador {
         Afn afnAux1=null;
         Caracter or = new Caracter();
         or.setValor("|");
-        if (this.preanalisis.equals(or)) {
-            this.match(or);
+        if (this.preanalisis.getValor().trim().equals(or.getValor())) {
+            this.match(this.preanalisis);
             afnAux1 = expReg();
         }
         return afnAux1;
@@ -228,13 +228,19 @@ public class Analizador {
         estado1.getArcos().add(arco);
         retorno.getEstados().getEstados().add(estado1);
         retorno.getEstados().getEstados().add(estado2);
+        estado1.setEInicial(true);
+        estado1.setEFinal(false);
+        estado2.setEInicial(false);
+        estado2.setEFinal(true);
         retorno.setEstadoInicial(estado1);
         retorno.setEstadoFinal(estado2);
         return retorno;
     }
     
     public Afn analizar(){
-        this.preanalisis = this.anLexico.sgteCaracter();
+        /*Esto no lo hacemos porque al construir el analizador ya actualizamos el
+         *preanalisis*/
+        //this.preanalisis = this.anLexico.sgteCaracter();
         Afn retorno = null;
         while(!this.preanalisis.getValor().equals("$")){
             retorno = this.expReg();

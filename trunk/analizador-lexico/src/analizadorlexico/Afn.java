@@ -278,7 +278,8 @@ public class Afn {
                 /*Si alg�n estado apuntaba al estado inicial de afnAUnir, lo cambiamos
                  *para que apunte al final de this..*/
                 Estado estadoAux = itEstados.next();
-                Iterator<Arco> itArco = itEstados.next().getArcos().iterator();
+                
+                Iterator<Arco> itArco = estadoAux.getArcos().iterator();
                 if(!estadoAux.isEInicial()){
                     while(itArco.hasNext()){
                         Arco arcoAux= itArco.next();
@@ -452,6 +453,10 @@ public class Afn {
         this.matriz = matriz;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public Afn generar(){
         Analizador an = new Analizador(this.expReg, this.alfabeto);
         Afn retorno = an.analizar();
