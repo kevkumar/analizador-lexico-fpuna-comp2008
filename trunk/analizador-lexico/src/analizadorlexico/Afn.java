@@ -410,6 +410,4 @@ public class Afn {
         this.matriz = matriz;
     }
     
-    
-    
 }
