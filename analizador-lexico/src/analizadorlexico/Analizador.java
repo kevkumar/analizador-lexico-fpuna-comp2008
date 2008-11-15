@@ -15,8 +15,8 @@ package analizadorlexico;
  *Esta clase hace uso de la clase AFN para resolver la expresión regular y devolver
  *un AFN con sus estados.
  *BNF
- * ExpReg ->  simple Aux
- * Aux -> "|" simple Aux | E
+ * ExpReg ->  simple Aux1
+ * Aux1 -> "|" simple Aux1 | E
  * simple -> basico Aux2
  * Aux2 -> basico Aux2 | E
  * basico -> lista op
@@ -46,7 +46,9 @@ public class Analizador {
         }
         this.setPos(0);
     }
-    
+    /**
+     *DEBERIA AGREGAR MAS DETALLES A LOS ERRORES QUE SE LANZAN.
+     */
     public void match(Caracter caracter){
         if(this.getPreanalisis().getValor().compareTo(caracter.getValor()) == 0){
             this.setPreanalisis(this.anLexico.sgteCaracter());
@@ -61,11 +63,110 @@ public class Analizador {
     
     /**Resuelve la producción inicial, llamando adecuadamente a las demas
      *producciones, las cuales utilizan los operadores de thompson */
-    public void expReg(){
+    public Afn expReg(){
+        Afn afn1=null;
+        Afn afn2=null;
+        afn1 = this.simple();
+        afn2 = this.aux1();
+        /*Debemos verificar si su resultado no es "E"-vacio, porque
+         *si no lo fuera debemos concatenarlo con or con el automata generado en simple()
+         *puesto que asi cumplimos con nuestras produccíones.*/
+        if(afn1!=null && afn2!=null){
+            afn1.thompsonOpsBinarias(afn2,1);
+        }
+        this.setAfn(afn1);
+        this.afn.setAlfabeto(this.alfabeto);
+        /**Seteamos al resultante con la verdadera expresión regular resultante*/
+        this.afn.setExpReg(this.expReg);
         
+        return afn1;
     }
     
-
+    public Afn simple(){
+        Afn afns1=null;
+        Afn afns2=null;
+        afns1 = basico();
+        afns2 = aux2();
+        if(afns1 !=null && afns2 != null){
+            afns1.thompsonOpsBinarias(afns2,2);
+        }
+        return afns1;
+    }
+    /*FALTA*/
+    public Afn basico(){
+        Afn afnb1=null;
+        afnb1 = lista();
+        /*Al resultado de ejecutar lista le aplicamos algún operador unario*/
+        if(afnb1 != null){
+            String operacion = this.preanalisis.getValor().trim();
+            if(operacion.equals("*")){
+                afnb1.thompsonOps(afnb1,3);                
+            }else if(operacion.equals("+")){
+                afnb1.thompsonOps(afnb1,2);
+            }else if(operacion.equals("?")){
+                afnb1.thompsonOps(afnb1,1);
+            }
+        }
+        return afnb1;
+    }
+    
+    public Afn lista(){
+        Afn afnLis1=null;
+        if(this.preanalisis.getValor().equals("(")){
+            afnLis1 = agrupacion();
+        }else{
+            afnLis1 = alfabeto();
+        }
+        return afnLis1;
+    }
+    
+    public Afn agrupacion(){
+        Afn afna1=null;
+        Caracter parAbierto = new Caracter();
+        parAbierto.setValor("(");
+        this.match(parAbierto);
+        afna1 = expReg();
+        
+        Caracter parCerrado = new Caracter();
+        parCerrado.setValor(")");
+        this.match(parCerrado);
+        
+        return afna1;
+    }
+    /*VERIFICAR A FONDO ESTA FUNCIÓN SI FUNCIONA*/
+    public Afn alfabeto(){
+        Afn afnAlf1=null;
+        if(!this.preanalisis.getValor().trim().equals("$")){
+            //LLamamos a la función que crea un AFN que va de un estado
+            //a otro por medio de la transición de preanalisis.
+            afnAlf1=construirAfnSimple(this.preanalisis.getValor());
+            this.match(this.preanalisis);
+        }
+        return afnAlf1;
+    }
+    
+    public Afn aux1(){
+        Afn afnAux1=null;
+        Caracter or = new Caracter();
+        or.setValor("|");
+        if (this.preanalisis.equals(or)) {
+            this.match(or);
+            afnAux1 = expReg();
+        }
+        return afnAux1;
+    }
+    
+    public Afn aux2(){
+        Afn afnAux2=null;
+        if ( (!preanalisis.getValor().equals("$")) &&
+            (this.alfabeto.getCaracteres().contains(preanalisis.getValor())) ||
+            this.preanalisis.getValor().equals("(")){
+            
+            afnAux2 = simple();
+        }
+        return afnAux2;
+    }
+    
     public String getExpReg() {
         return expReg;
     }
@@ -112,6 +213,24 @@ public class Analizador {
 
     public void setPos(int pos) {
         this.pos = pos;
+    }
+    /**
+     *Construye un afn simple con 2 estados y un string que los une, o un arco
+     *con el valor del string que se recibe.
+     **/
+    private Afn construirAfnSimple(String valorTransicion) {
+        int nombreEstado = 0;
+        Afn retorno = new Afn();
+        retorno.setAlfabeto(this.alfabeto);
+        Estado estado1 = new Estado(0);
+        Estado estado2 = new Estado(1);
+        Arco arco = new Arco(valorTransicion.trim(),estado1,estado2);
+        estado1.getArcos().add(arco);
+        retorno.getEstados().getEstados().add(estado1);
+        retorno.getEstados().getEstados().add(estado2);
+        retorno.setEstadoInicial(estado1);
+        retorno.setEstadoFinal(estado2);
+        return retorno;
     }
     
 }
