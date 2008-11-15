@@ -61,7 +61,9 @@ public class ConjuntoDeEstados {
      */
     public boolean contieneEstado(Estado nuevo) {
         //throw new UnsupportedOperationException("Not yet implemented");
-        /* MENSAJE: Ver comportamiento de contains*/        
+        /* MENSAJE: Ver comportamiento de contains
+         EN CASO DE QUE NO FUNCIONE AGREGAR METODO QUE COMPARE CON LOS ID'S
+         DE LOS ESTADOS*/        
         return this.lista.contains(nuevo);
     }    
     

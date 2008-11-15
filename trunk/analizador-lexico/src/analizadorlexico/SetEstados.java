@@ -33,4 +33,18 @@ public class SetEstados {
         this.estados = estados;
     }
     
+    /**
+     * ORDENA EL CONJUNTO DE ESTADOS
+     */
+    public void ordenar() {       
+        Estado a[] = new Estado[1]; 
+        a = (Estado []) estados.toArray(a);
+        Comparator comp = new Comparator();
+        java.util.Arrays.sort(a,);
+        estados.removeAll(estados);
+        for(int i = 0; i < a.length; i++) {
+            estados.add(a[i]); 
+        }
+    }
+    
 }
