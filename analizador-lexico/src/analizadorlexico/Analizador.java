@@ -101,10 +101,13 @@ public class Analizador {
             String operacion = this.preanalisis.getValor().trim();
             if(operacion.equals("*")){
                 afnb1.thompsonOps(afnb1,3);                
+                this.match(this.preanalisis);
             }else if(operacion.equals("+")){
                 afnb1.thompsonOps(afnb1,2);
+                this.match(this.preanalisis);
             }else if(operacion.equals("?")){
                 afnb1.thompsonOps(afnb1,1);
+                this.match(this.preanalisis);
             }
         }
         return afnb1;
