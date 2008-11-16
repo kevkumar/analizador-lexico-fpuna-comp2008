@@ -249,6 +249,10 @@ public class Afn {
             this.estados.getEstados().add(eInicialNuevo);
             this.estados.getEstados().add(eFinalNuevo);
             
+            /*PONEMOS COMO ESTADOS FINALES A LOS NUEVOS FINALES*/
+            this.setEstadoInicial(eInicialNuevo);
+            this.setEstadoFinal(eFinalNuevo);
+            
          /*Si llega de tipo 2 hacemos un AND entre automatas*/   
         }else if(tipo == 2){
             /*Lo primero que hacemos es ajustar los id's de los estados del afnAUnir
