@@ -52,13 +52,19 @@ public class AFDEquivalente {
     private TransicionesAfd transiciones;
             
     public AFDEquivalente() {        
+        this.estadosIniciales = new ArrayList<ConjuntoDeEstados>();
+        this.estadosFinales = new ArrayList<ConjuntoDeEstados>();
+        this.estadosMarcados = new ArrayList<ConjuntoDeEstados>();
     }
         
     /**
      * @param afn - Afn a partir del cual se genera el AFD equivalente
      */
     public AFDEquivalente(Afn afn) {
-        this.afn = afn;        
+        this.afn = afn;    
+        this.estadosIniciales = new ArrayList<ConjuntoDeEstados>();
+        this.estadosFinales = new ArrayList<ConjuntoDeEstados>();
+        this.estadosMarcados = new ArrayList<ConjuntoDeEstados>();
     }    
     
     /**
@@ -90,7 +96,7 @@ public class AFDEquivalente {
         ConjuntoDeEstados resultado = new ConjuntoDeEstados();        
         Stack pila = new Stack();
         Estado fin;        
-        pila.addAll((Collection) conjunto);
+        pila.addAll(conjunto.getLista());
         resultado.setLista(conjunto.getLista());                
         while (! pila.isEmpty()) {
             fin = (Estado) pila.pop();                        
@@ -144,7 +150,7 @@ public class AFDEquivalente {
         /* MENSAJE: Hace falta ordenar? */
         estadoInicial = alcamzablesEstado(afn.getEstadoInicial());        
         estadoInicial.setInicio(nombreAsignado++);  
-        estadosIniciales.addAll(estadosIniciales);
+        estadosIniciales.add(estadoInicial);
         
         String simbolo;
         conjuntoT = getEstadoDesmarcado();
@@ -207,7 +213,7 @@ public class AFDEquivalente {
      */    
     private ConjuntoDeEstados getEstadoDesmarcado(){
         ConjuntoDeEstados resultado = null;                        
-        if (!estadoInicial.getLista().isEmpty()){
+        if (!estadosIniciales.isEmpty()){
             resultado = estadosIniciales.get(0);
             estadosIniciales.remove(0);
             estadosMarcados.add(resultado);

@@ -6,6 +6,7 @@
 package analizadorlexico.afd;
 
 import analizadorlexico.Estado;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class ConjuntoDeEstados {
     }
 
     public ConjuntoDeEstados() {
+        this.lista = new ArrayList();
     }
 
     /**
@@ -73,7 +75,7 @@ public class ConjuntoDeEstados {
         boolean respuesta = false;
         for(Estado esteConjunto : this.getLista()){
             for(Estado comparar : comp.getLista()){
-                if(esteConjunto.equals(comp)){
+                if(esteConjunto.equals(comparar)){
                     respuesta = true;
                     break;
                 }

@@ -9,6 +9,8 @@
 
 package analizadorlexico;
 
+import analizadorlexico.afd.AFDEquivalente;
+
 /**
  *
  * @author Huguis
@@ -28,10 +30,12 @@ public class Main {
         alf.cargarAlfabeto("a,b,E");
         alf.setHayVacio(true);                
         
-        Afn a = new Afn("aab|ba*$", alf);
+        Afn a = new Afn("(a|b)*abb$", alf);
         a = a.generar();
-        
+        AFDEquivalente afd = new AFDEquivalente(a);
+        afd.construirTransiciones();
         System.out.println(a.imprimir());
+        System.out.println(afd.imprimir());
     }
     
 }
