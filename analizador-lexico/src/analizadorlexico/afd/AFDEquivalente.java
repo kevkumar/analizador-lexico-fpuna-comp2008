@@ -179,7 +179,7 @@ public class AFDEquivalente {
      */    
     private void construirMatriz() {
         //throw new UnsupportedOperationException("Not yet implemented");
-        adyacencia = new String[getEstadosMarcados().size()][getEstadosMarcados().size()];
+        setAdyacencia(new String[getEstadosMarcados().size()][getEstadosMarcados().size()]);
         ConjuntoDeEstados conjunto;
         ArrayList valores;
         Enumeration enumeracion = this.transiciones.getClaves(); 
@@ -199,9 +199,9 @@ public class AFDEquivalente {
                 nodo = (HashNodeTransicion)iteracion;
                 destino = nodo.getEstadosDestino().getInicio(); 
                 if (destino != -1) {
-                    elemento = adyacencia[origen][destino];
+                    elemento = getAdyacencia()[origen][destino];
                     if(elemento == null) elemento = "";
-                    adyacencia[origen][destino] = elemento + nodo.getEntrada(); 
+                    getAdyacencia()[origen][destino] = elemento + nodo.getEntrada(); 
                 }
             }
             
@@ -340,5 +340,13 @@ public class AFDEquivalente {
 
     public void setAfn(Afn afn) {
         this.afn = afn;
+    }
+
+    public String[][] getAdyacencia() {
+        return adyacencia;
+    }
+
+    public void setAdyacencia(String[][] adyacencia) {
+        this.adyacencia = adyacencia;
     }
 }
