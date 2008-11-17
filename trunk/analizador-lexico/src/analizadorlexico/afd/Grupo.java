@@ -1,5 +1,5 @@
 /*
- * Grupos.java
+ * Grupo.java
  *
  * Created on 16 de noviembre de 2008, 15:50
  *
@@ -12,16 +12,19 @@ package analizadorlexico.afd;
 import java.util.ArrayList;
 
 /**
- * Grupos que son utilizados dentro del afdminimo
+ * Grupo que son utilizados dentro del afdminimo
+ * 
  * @author Huguis
  */
-public class Grupos {
+public class Grupo {
     private ArrayList<ConjuntoDeEstados> grupo;
     private int idGrupo;
     private boolean finales;
-    /** Creates a new instance of Grupos */
+    /**
+     * Creates a new instance of Grupo
+     */
     
-    public Grupos(int idgrupo) {
+    public Grupo(int idgrupo) {
         this.grupo = new ArrayList<ConjuntoDeEstados>();
         this.setIdGrupo(idgrupo);
         this.setFinales(false);
