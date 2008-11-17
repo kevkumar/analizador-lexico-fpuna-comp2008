@@ -5,6 +5,7 @@
 
 package analizadorlexico.afd;
 
+import analizadorlexico.Alfabeto;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,7 @@ public class AfdMin {
     private ArrayList<Grupo> conjuntoInicial;
     private ArrayList<Grupo> conjuntoActual;
     /*Matriz de estados versus alftabeto*/
-    //ConjuntoDeEstados [][] matrizEstAlf;
+    private ConjuntoDeEstados [][] matrizEstAlf;
     private int vectorGrupo [];
     /*variable que mantiene el nro de grupo creado*/
     private int contGrupo =0;
@@ -130,6 +131,31 @@ public class AfdMin {
         return this;
     }
     
+    public void inicializarMatriz(){
+        int tamanoFila= this.afd.getEstadosMarcados().size();
+        int tamanoCol = this.afd.getAfn().getAlfabeto().getCaracteres().size();
+        this.matrizEstAlf = new ConjuntoDeEstados [tamanoFila][tamanoCol];
+        String letra;
+        for(int i=0; i<tamanoFila;i++){
+            for(int j=0; j<tamanoFila;j++){
+                letra =this.afd.getAdyacencia()[i][j];
+                if (letra != null){
+                    this.matrizEstAlf[i][this.conseguirIdLetra(letra)] = this.getAfd().getEstadosMarcados().get(i);
+                }
+            }
+        }
+        
+    }
+    public int conseguirIdLetra(String letra){
+        int pos =-1;
+        for(String caracter :(ArrayList<String>) this.afd.getAfn().getAlfabeto().getCaracteres()){
+            pos++;
+            if(caracter.equalsIgnoreCase(letra)){
+                return pos;
+            }
+        }
+        return -1;
+    }
     
     public void actualizarVector(){
         for(Grupo grupo : this.conjuntoInicial){
@@ -162,6 +188,14 @@ public class AfdMin {
 
     public void setConjuntoActual(ArrayList<Grupo> conjuntoActual) {
         this.conjuntoActual = conjuntoActual;
+    }
+
+    public ConjuntoDeEstados[][] getMatrizEstAlf() {
+        return matrizEstAlf;
+    }
+
+    public void setMatrizEstAlf(ConjuntoDeEstados[][] matrizEstAlf) {
+        this.matrizEstAlf = matrizEstAlf;
     }
     
 }
