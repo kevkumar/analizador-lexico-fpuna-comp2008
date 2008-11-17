@@ -17,14 +17,16 @@ public class ConjuntoDeEstados {
     
     private List<Estado> lista;
     
-    private int inicio;
-
+    private int idConjEstados;
+    
+    private boolean conjFinal;
+    
     public int getInicio() {
-        return inicio;
+        return idConjEstados;
     }
 
     public void setInicio(int inicio) {
-        this.inicio = inicio;
+        this.idConjEstados = inicio;
     }
 
     public ConjuntoDeEstados() {
@@ -50,7 +52,9 @@ public class ConjuntoDeEstados {
     }
         
     /**
-     * @param inicio - Estado de inicio
+     * 
+     * 
+     * @param idConjEstados - Estado de idConjEstados
      */
     public void addEstado(Estado inicio) {
         //throw new UnsupportedOperationException("Not yet implemented");
@@ -84,6 +88,14 @@ public class ConjuntoDeEstados {
             }
         }
         return true;
+    }
+
+    public boolean isConjFinal() {
+        return conjFinal;
+    }
+
+    public void setConjFinal(boolean conjFinal) {
+        this.conjFinal = conjFinal;
     }
 
 }

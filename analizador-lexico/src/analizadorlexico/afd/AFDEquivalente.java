@@ -52,19 +52,19 @@ public class AFDEquivalente {
     private TransicionesAfd transiciones;
             
     public AFDEquivalente() {        
-        this.estadosIniciales = new ArrayList<ConjuntoDeEstados>();
-        this.estadosFinales = new ArrayList<ConjuntoDeEstados>();
-        this.estadosMarcados = new ArrayList<ConjuntoDeEstados>();
+        this.setEstadosIniciales(new ArrayList<ConjuntoDeEstados>());
+        this.setEstadosFinales(new ArrayList<ConjuntoDeEstados>());
+        this.setEstadosMarcados(new ArrayList<ConjuntoDeEstados>());
     }
         
     /**
      * @param afn - Afn a partir del cual se genera el AFD equivalente
      */
     public AFDEquivalente(Afn afn) {
-        this.afn = afn;    
-        this.estadosIniciales = new ArrayList<ConjuntoDeEstados>();
-        this.estadosFinales = new ArrayList<ConjuntoDeEstados>();
-        this.estadosMarcados = new ArrayList<ConjuntoDeEstados>();
+        this.setAfn(afn);    
+        this.setEstadosIniciales(new ArrayList<ConjuntoDeEstados>());
+        this.setEstadosFinales(new ArrayList<ConjuntoDeEstados>());
+        this.setEstadosMarcados(new ArrayList<ConjuntoDeEstados>());
     }    
     
     /**
@@ -148,14 +148,14 @@ public class AFDEquivalente {
         ConjuntoDeEstados conjuntoT, conjuntoU;                
         int nombreAsignado = 0;
         /* MENSAJE: Hace falta ordenar? */
-        estadoInicial = alcamzablesEstado(afn.getEstadoInicial());        
+        estadoInicial = alcamzablesEstado(getAfn().getEstadoInicial());        
         estadoInicial.setInicio(nombreAsignado++);  
-        estadosIniciales.add(estadoInicial);
+        getEstadosIniciales().add(estadoInicial);
         
         String simbolo;
         conjuntoT = getEstadoDesmarcado();
         while (conjuntoT != null){
-            for(Object s :  afn.getAlfabeto().getCaracteres()){            
+            for(Object s :  getAfn().getAlfabeto().getCaracteres()){            
                 simbolo = (String) s;
                 conjuntoU = alcamzablesConjunto(alcanzableSimbolo(conjuntoT, simbolo));
                 if (conjuntoU.getLista().size() > 0) {
@@ -163,14 +163,14 @@ public class AFDEquivalente {
                         conjuntoU.setInicio(getNombre(conjuntoU));
                     } else {
                         conjuntoU.setInicio(nombreAsignado++);
-                        estadosIniciales.add(conjuntoU);
+                        getEstadosIniciales().add(conjuntoU);
                     }
                 }
                 transiciones.agregarTransiciones(conjuntoT, simbolo, conjuntoU);
             }            
             conjuntoT = getEstadoDesmarcado();
         }
-        procesarEstadosFinales(afn.getEstadoFinal());
+        procesarEstadosFinales(getAfn().getEstadoFinal());
         construirMatriz();
     }
 
@@ -179,7 +179,7 @@ public class AFDEquivalente {
      */    
     private void construirMatriz() {
         //throw new UnsupportedOperationException("Not yet implemented");
-        adyacencia = new String[estadosMarcados.size()][estadosMarcados.size()];
+        adyacencia = new String[getEstadosMarcados().size()][getEstadosMarcados().size()];
         ConjuntoDeEstados conjunto;
         ArrayList valores;
         Enumeration enumeracion = this.transiciones.getClaves(); 
@@ -213,10 +213,10 @@ public class AFDEquivalente {
      */    
     private ConjuntoDeEstados getEstadoDesmarcado(){
         ConjuntoDeEstados resultado = null;                        
-        if (!estadosIniciales.isEmpty()){
-            resultado = estadosIniciales.get(0);
-            estadosIniciales.remove(0);
-            estadosMarcados.add(resultado);
+        if (!getEstadosIniciales().isEmpty()){
+            resultado = getEstadosIniciales().get(0);
+            getEstadosIniciales().remove(0);
+            getEstadosMarcados().add(resultado);
         }        
         return resultado;
     }
@@ -264,7 +264,7 @@ public class AFDEquivalente {
         for(ConjuntoDeEstados estados : estadosFinales){                    
             indice++;
             respuesta = respuesta + estados.getInicio();
-            if (!(indice == (estadosFinales.size()))) {
+            if (!(indice == (getEstadosFinales().size()))) {
                 respuesta = respuesta + ", ";
             }
         }
@@ -278,7 +278,8 @@ public class AFDEquivalente {
         //throw new UnsupportedOperationException("Not yet implemented");
         for(ConjuntoDeEstados estados : estadosMarcados ){                    
             if (estados.contieneEstado(estadoFinal)) {
-                estadosFinales.add(estados);
+                estados.setConjFinal(true);
+                getEstadosFinales().add(estados);
             }
         }
     }
@@ -300,7 +301,7 @@ public class AFDEquivalente {
         for(ConjuntoDeEstados conjunto : estadosMarcados){        
             indice++;
             respuesta = respuesta + conjunto.getInicio();
-            if (!(indice == (estadosMarcados.size()))) {
+            if (!(indice == (getEstadosMarcados().size()))) {
                 respuesta = respuesta + ", ";
             }
         }
@@ -308,4 +309,36 @@ public class AFDEquivalente {
         
         return respuesta;        
     }        
+
+    public List<ConjuntoDeEstados> getEstadosIniciales() {
+        return estadosIniciales;
+    }
+
+    public void setEstadosIniciales(List<ConjuntoDeEstados> estadosIniciales) {
+        this.estadosIniciales = estadosIniciales;
+    }
+
+    public List<ConjuntoDeEstados> getEstadosMarcados() {
+        return estadosMarcados;
+    }
+
+    public void setEstadosMarcados(List<ConjuntoDeEstados> estadosMarcados) {
+        this.estadosMarcados = estadosMarcados;
+    }
+
+    public List<ConjuntoDeEstados> getEstadosFinales() {
+        return estadosFinales;
+    }
+
+    public void setEstadosFinales(List<ConjuntoDeEstados> estadosFinales) {
+        this.estadosFinales = estadosFinales;
+    }
+
+    public Afn getAfn() {
+        return afn;
+    }
+
+    public void setAfn(Afn afn) {
+        this.afn = afn;
+    }
 }
