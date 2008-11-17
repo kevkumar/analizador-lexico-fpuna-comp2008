@@ -20,6 +20,8 @@ public class ConjuntoDeEstados {
     private int idConjEstados;
     
     private boolean conjFinal;
+    /*para usar dentro del afd minimo*/
+    private int idGrupo;
     
     public int getInicio() {
         return idConjEstados;
@@ -96,6 +98,14 @@ public class ConjuntoDeEstados {
 
     public void setConjFinal(boolean conjFinal) {
         this.conjFinal = conjFinal;
+    }
+
+    public int getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(int idGrupo) {
+        this.idGrupo = idGrupo;
     }
 
 }
