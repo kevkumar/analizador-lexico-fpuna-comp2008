@@ -10,6 +10,7 @@
 package analizadorlexico;
 
 import analizadorlexico.afd.AFDEquivalente;
+import analizadorlexico.afd.AfdMin;
 
 /**
  *
@@ -34,6 +35,8 @@ public class Main {
         a = a.generar();
         AFDEquivalente afd = new AFDEquivalente(a);
         afd.construirTransiciones();
+        AfdMin afdmin = new AfdMin(afd);
+        afdmin = afdmin.minimizacion();
         System.out.println(a.imprimir());
         System.out.println(afd.imprimir());
     }

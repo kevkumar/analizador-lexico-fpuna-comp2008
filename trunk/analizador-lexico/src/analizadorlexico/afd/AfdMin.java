@@ -86,7 +86,7 @@ public class AfdMin {
                              *A ALGUN ELEMENTO QUE ESTA FUERA DE NUESTRO GRUPO, SI ES ASI
                              *LO DEBEMOS PONER EN OTRO GRUPO NUEVO O YA EXISTENTE QUE TENGA
                              *ELEMENTOS QUE APUNTE AL MISMO GRUPO*/
-                            for(int j=0; j<grupo.getGrupo().size();j++){
+                            for(int j=0; j<grupo.getGrupo().size()+1;j++){
                                 
                                 valorCaracter = this.afd.getAdyacencia()[conjAux.getInicio()][j];
                                 /*Si el valor de la matriz de adyacencia es igual al caracter que 
@@ -96,13 +96,15 @@ public class AfdMin {
                                     
                                     if(vectorGrupo[conjAux.getInicio()] != vectorGrupo[j]){
                                         
+                                        
                                     /*CREAR NUEVO GRUPO Y AÑADIRLO AHI, ACTUALIZAR
                                      *ADEMAS EL VECTORGRUPO Y REMOVER AL CONJAUX
                                      *DEL GRUPO ACTUAL EN EL QUE ESTA.*/
                                         seCreoNuevoGrupo =true;
                                         grupoAIntroducir.getGrupo().add(conjAux);
-                                        grupo.getGrupo().remove(conjAux);
-                                        vectorGrupo[conjAux.getInicio()] = contGrupo;
+                                        //grupo.getGrupo().remove(conjAux);
+                                        itElemGrupo.remove();
+                                        //vectorGrupo[conjAux.getInicio()] = contGrupo;
                                     }
                                 }
                             }
@@ -115,9 +117,11 @@ public class AfdMin {
                         contGrupo--;
                     }else{
                         this.conjuntoInicial.add(grupoAIntroducir);
+                        break;
                     }
                 }
             }
+            this.actualizarVector();
             /*Si no se crearon nuevos grupos, terminamos el algoritmo*/
             if(tamañoConjInicial == this.conjuntoInicial.size())
                 continuar=false;
@@ -127,6 +131,14 @@ public class AfdMin {
     }
     
     
+    public void actualizarVector(){
+        for(Grupo grupo : this.conjuntoInicial){
+            Iterator<ConjuntoDeEstados> itElemGrupo = grupo.getGrupo().iterator();
+            while(itElemGrupo.hasNext()){
+                this.vectorGrupo[itElemGrupo.next().getInicio()] = grupo.getIdGrupo();
+            }
+        }
+    }
     public /*Este afd es la entrada a ser procesada por el afd minimo*/
     AFDEquivalente getAfd() {
         return afd;
