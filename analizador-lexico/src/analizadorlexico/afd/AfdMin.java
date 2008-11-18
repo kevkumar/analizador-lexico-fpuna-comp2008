@@ -26,7 +26,11 @@ public class AfdMin {
     private int vectorGrupo [];
     /*variable que mantiene el nro de grupo creado*/
     private int contGrupo =0;
-    
+    /**
+     * Constructor que utiliza un afd para setear los valores
+     * iniciales
+     * @param afd El afd a minimizar
+     */
     public AfdMin(AFDEquivalente afd) {
         this.setAfd(afd);
         this.setConjuntoActual(new ArrayList<Grupo>());
@@ -35,27 +39,28 @@ public class AfdMin {
     }
     
     /**
-     *Esta función realiza la minimización del afd en cuestión y devuelve un afd
-     *minimizado.
-     **/
+     * Esta función realiza la minimización del afd en cuestión y devuelve un afd
+     * minimizado.
+     * @return Retorna el afd minimizado
+     */
     public AfdMin minimizacion(){
-        
+        /*Grupos iniciales que se cargan en el conjunto inicial*/
         Grupo finales = new Grupo(contGrupo);
         contGrupo++;
         Grupo noFinales = new Grupo(contGrupo);
         Grupo grupoAIntroducir;
         
-        
+        /*Obtiene los caracteres del alfabeto*/
         ArrayList<String> alfa = (ArrayList<String>) this.afd.getAfn().getAlfabeto().getCaracteres();
         
         finales.setGrupo((ArrayList<ConjuntoDeEstados>) this.afd.getEstadosFinales());
         finales.setFinales(true);
         /* Iteramos sobre los estados marcados, y si no son finales los añadimos
-         *al grupo de no finales.*/
+         *al grupo de no finales. Ademas establecemos el id de grupo 0 a los
+         finales y 1 a los no finales*/
         Iterator itConjEstados = this.afd.getEstadosMarcados().iterator();
         
         while(itConjEstados.hasNext()){
-            
             ConjuntoDeEstados aux = (ConjuntoDeEstados) itConjEstados.next();
             if(!aux.isConjFinal()){
                 aux.setIdGrupo(1);
@@ -66,6 +71,7 @@ public class AfdMin {
                 this.vectorGrupo[aux.getInicio()] = 0;
             }
         }
+        
         this.conjuntoInicial.add(finales);
         this.conjuntoInicial.add(noFinales);
         boolean continuar =true;
@@ -74,9 +80,14 @@ public class AfdMin {
         /*SIMPLE CONTADOR PARA VERIFICAR LA CANTIDAD DE ACIERTOS DE LAS LETRAS*/
         int cont =0;
         this.inicializarMatriz();
+        /*Mientras no lleguemos a la condición de parada*/
         while(continuar){
+            
             int tamañoConjInicial = this.conjuntoInicial.size();
+            /*iteramos sobre cada grupo del conjunto inicial*/
             for(Grupo grupo : this.conjuntoInicial){
+                /*si el grupo tiene mas de un elemento lo procesamos, sino
+                 *simplemente lo añadimos*/
                 if(grupo.getGrupo().size() > 1){
                     
                     boolean seCreoNuevoGrupo = true;
@@ -130,37 +141,6 @@ public class AfdMin {
                             }
                         }
                         conjAux.setIdGrupo(grupoAIntroducir.getIdGrupo());
-                        /*Tomamos un caracter del alfabeto y lo revisamos*/
-//                        for(String caracter : alfa){
-//                            /*TOMAMOS UN ELEMENTO DE NUESTRO GRUPO, Y VEMOS SI NO APUNTA
-//                             *A ALGUN ELEMENTO QUE ESTA FUERA DE NUESTRO GRUPO, SI ES ASI
-//                             *LO DEBEMOS PONER EN OTRO GRUPO NUEVO O YA EXISTENTE QUE TENGA
-//                             *ELEMENTOS QUE APUNTE AL MISMO GRUPO*/
-//                            
-//                            
-//                            for(int j=0; j<grupo.getGrupo().size()+1;j++){
-//                                
-//                                valorCaracter = this.afd.getAdyacencia()[conjAux.getInicio()][j];
-//                                /*Si el valor de la matriz de adyacencia es igual al caracter que 
-//                                 *estamos examinando entoncs vemos a que grupo apunta nuestro
-//                                 *conj aux con ese caracter*/
-//                                if(caracter.equalsIgnoreCase(valorCaracter)){
-//                                    
-//                                    if(vectorGrupo[conjAux.getInicio()] != vectorGrupo[j]){
-//                                        
-//                                        
-//                                    /*CREAR NUEVO GRUPO Y AÑADIRLO AHI, ACTUALIZAR
-//                                     *ADEMAS EL VECTORGRUPO Y REMOVER AL CONJAUX
-//                                     *DEL GRUPO ACTUAL EN EL QUE ESTA.*/
-//                                        seCreoNuevoGrupo =true;
-//                                        grupoAIntroducir.getGrupo().add(conjAux);
-//                                        //grupo.getGrupo().remove(conjAux);
-//                                        itElemGrupo.remove();
-//                                        //vectorGrupo[conjAux.getInicio()] = contGrupo;
-//                                    }
-//                                }
-//                            }
-//                        }
                     }
                     
                     /*
@@ -175,23 +155,11 @@ public class AfdMin {
                         grupoAIntroducir = new Grupo(contGrupo);
                         
                     }
-                    /*Si no se creo un nuevo grupo lo que hacemos es regresar
-                     *el valor del contador de grupo, si se creo un nuevo
-                     *grupo lo añadimos a conjunto inicial.*/
-                    //this.conjuntoActual.add(grupoAIntroducir);
-//                    if(!seCreoNuevoGrupo){
-//                        contGrupo--;
-//                    }else{
-//                        this.conjuntoInicial.add(grupoAIntroducir);
-//                        seCreoNuevoGrupo = false;
-//                    }
-                    /*CONTROLAR QUE NO SEA DE SIZE ==0*/
                 }else{
                     this.conjuntoActual.add(grupo);
                 }
                 
             }
-           // this.actualizarVector();
             /*Si no se crearon nuevos grupos, terminamos el algoritmo*/
             if(tamañoConjInicial == this.conjuntoActual.size()){
                 continuar=false;
@@ -203,13 +171,17 @@ public class AfdMin {
                 conjuntoActual = new ArrayList<Grupo>();
             }
             
-            /*AK FALTA UNA FUNCIÓN ACTUALIZAR GRUPOS, QUE ACTUALICE LOS VALORES
-             *DE LA MATRIZ*/
         }
         
         return this;
     }
     
+    /**
+     * Metodo que parte de la matriz de adyacencias del afd y
+     * construye la matriz de conjunto de estados versus letras
+     * del alfabeto. Para poder utilizarla como se propone en los
+     * ejercicios del cuaderno
+     */
     public void inicializarMatriz(){
         int tamanoFila= this.afd.getEstadosMarcados().size();
         int tamanoCol = this.afd.getAfn().getAlfabeto().getCaracteres().size();
@@ -230,6 +202,14 @@ public class AfdMin {
             }
         }
     }
+    /**
+     * Este metodo nos permite averiguar la columna
+     * a la que pertenecera un conjunto de estados.
+     * Entiendanse por conjunto de estados como
+     * los nodos dentro del afd
+     * @param letra Recibe la letra o caracter a procesar
+     * @return un entero con la posición de la letra en la matrizAlfVsConjestados
+     */
     public int conseguirIdLetra(String letra){
         int pos =-1;
         for(String caracter :(ArrayList<String>) this.afd.getAfn().getAlfabeto().getCaracteres()){
@@ -241,6 +221,10 @@ public class AfdMin {
         return -1;
     }
     
+    /**
+     * Metodo que actualiza el vector de grupos
+     * a los que pertenece un conj de estados
+     */
     public void actualizarVector(){
         for(Grupo grupo : this.conjuntoInicial){
             Iterator<ConjuntoDeEstados> itElemGrupo = grupo.getGrupo().iterator();
@@ -249,6 +233,8 @@ public class AfdMin {
             }
         }
     }
+    
+    /* GETTERS Y SETTERS DE VARIABLES*/
     public /*Este afd es la entrada a ser procesada por el afd minimo*/
     AFDEquivalente getAfd() {
         return afd;
