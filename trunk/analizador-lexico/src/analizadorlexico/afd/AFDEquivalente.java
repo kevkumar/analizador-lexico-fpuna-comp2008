@@ -199,9 +199,21 @@ public class AFDEquivalente {
                 nodo = (HashNodeTransicion)iteracion;
                 destino = nodo.getEstadosDestino().getInicio(); 
                 if (destino != -1) {
+<<<<<<< .mine
+                    elemento = getAdyacencia()[origen][destino];
+                    if(elemento == null) 
+                        elemento = "";
+                    else
+                        if(nodo.getEntrada()!=""){
+                            getAdyacencia()[origen][destino] = null;
+                            continue;
+                        }
+                    getAdyacencia()[origen][destino] = elemento + nodo.getEntrada(); 
+=======
                     elemento = getAdyacencia()[origen][destino];
                     if(elemento == null) elemento = "";
                     getAdyacencia()[origen][destino] = elemento + nodo.getEntrada(); 
+>>>>>>> .r37
                 }
             }
             
