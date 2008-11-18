@@ -372,7 +372,7 @@ public class Afn {
                 String nom = a.getIdArco();
                 if (getMatrizAdyacencia()[i][m] == null) {
                     getMatrizAdyacencia()[i][m] = nom;
-                    setGrafo(getGrafo() + i + " -> " + m + " [ label = \"" + a.getIdArco()  + "\" ];\n");
+                    setGrafo(getGrafo() + tmp.getIdEstado() + " -> " + m + " [ label = \"" + a.getIdArco()  + "\" ];\n");
                 } else {
                     getMatrizAdyacencia()[i][m] = getMatrizAdyacencia()[i][m] + nom;
                 }
