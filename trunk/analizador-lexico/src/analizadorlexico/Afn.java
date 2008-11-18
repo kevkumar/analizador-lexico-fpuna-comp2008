@@ -9,6 +9,11 @@
 
 package analizadorlexico;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -17,7 +22,7 @@ import java.util.Iterator;
  * AQUI IMPLEMENTAMOS EL AUTOMATA FINITO NO DETERMINISTA, PARA ESTO UTILIZAMOS
  * LOS OPERADORES DEFINIDOS POR THOMPSON E IMPLEMENTAMOS SU ALGORITMO.
  * COMO SABEMOS UN AFN CONSTA DE:
- * 1- UNA EXPRESIï¿½N REGULAR
+ * 1- UNA EXPRESIóN REGULAR
  * 2- DE UN CONJUNTO DE ESTADOS
  * 3- UN ESTADO INICIAL
  * 4- UN CONJUNTO DE ESTADOS FINALES(solo uno)
@@ -33,6 +38,10 @@ public class Afn {
     private Alfabeto alfabeto;
     /*matriz de estados que genera un AFN*/
     private Estado [][] matriz;
+
+    private String grafo;
+
+    private String[][] matrizAdyacencia;
     
     /** Creamos una nueva instancia de AFN, donde se recibe la expresiï¿½n 
      *regular de entrada y el alfabeto.
@@ -336,6 +345,43 @@ public class Afn {
 //            }
 //        }
 //    }
+    public void generarGrafos(String nombreArchivo) {
+        try {
+            FileWriter fw = new FileWriter(nombreArchivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter salida = new PrintWriter(bw);
+            salida.println("digraph finite_state_machine {\n size=\"8,5\" \n rankdir=LR \n graph [aspect=\"1.333\"] \n node [shape = doublecircle]; 0 10; \n node [shape = circle]; \n" + getGrafo() +"}");
+            salida.close();
+        } catch (IOException ioex) {
+            System.out.println((new StringBuilder()).append("se presento el error: ").append(ioex.toString()).toString());
+        }
+        cargaMatriz();
+    }
+    
+    
+    public void cargaMatriz() {
+        int n = getEstados().getEstados().size();
+        setGrafo("");
+        setMatrizAdyacencia(new String[n][n]);
+        for (int i = 0; i < n; i++) {
+            Estado tmp = (Estado)estados.getEstados().get(i);
+            ArrayList ca = tmp.getArcos();
+            for (int k = 0; k < ca.size(); k++) {
+                Arco a = (Arco)ca.get(k);
+                int m = a.getDestino().getIdEstado();
+                String nom = a.getIdArco();
+                if (getMatrizAdyacencia()[i][m] == null) {
+                    getMatrizAdyacencia()[i][m] = nom;
+                    setGrafo(getGrafo() + i + " -> " + m + " [ label = \"" + a.getIdArco()  + "\" ];\n");
+                } else {
+                    getMatrizAdyacencia()[i][m] = getMatrizAdyacencia()[i][m] + nom;
+                }
+            }
+            
+        }
+        
+        System.out.println((new StringBuilder()).append("Grafo formado \n").append(getGrafo()).toString());
+    }
     /**
      * Imprime el afn en cuestiÃ³n
      * */
@@ -465,6 +511,22 @@ public class Afn {
         Analizador an = new Analizador(this.expReg, this.alfabeto);
         Afn retorno = an.analizar();
         return retorno;
+    }
+
+    public String getGrafo() {
+        return grafo;
+    }
+
+    public void setGrafo(String grafo) {
+        this.grafo = grafo;
+    }
+
+    public String[][] getMatrizAdyacencia() {
+        return matrizAdyacencia;
+    }
+
+    public void setMatrizAdyacencia(String[][] matrizAdyacencia) {
+        this.matrizAdyacencia = matrizAdyacencia;
     }
     
 }
