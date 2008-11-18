@@ -91,6 +91,7 @@ public class AfdMin {
                          *cargados en grupo a introducir son todos los que apuntan a un mismo
                          *grupo*/
                         if(grupoAIntroducir.getGrupo().contains(conjAux)){
+                            /*Luego revisamos si el grupo ya no fue cargado en el conjunto actual*/
                             itElemGrupo.remove();
                             continue;
                         }else if(grupoAIntroducir.getGrupo().size() > 0){
@@ -121,12 +122,14 @@ public class AfdMin {
                             }
                             /*VERIFICAMOS SI SE CUMPLIO QUE APUNTAN AL MISMOS GRUPOS CON LAS MISMAS LETRAS*/
                             if(cont == alfa.size()){
+                                conjAux2.setIdGrupo(grupoAIntroducir.getIdGrupo());
                                 grupoAIntroducir.getGrupo().add(conjAux2);
-                                //itNextEGrupo.remove();
+                                itNextEGrupo.remove();
+                                itElemGrupo = grupo.getGrupo().iterator();
                                 
                             }
                         }
-                        
+                        conjAux.setIdGrupo(grupoAIntroducir.getIdGrupo());
                         /*Tomamos un caracter del alfabeto y lo revisamos*/
 //                        for(String caracter : alfa){
 //                            /*TOMAMOS UN ELEMENTO DE NUESTRO GRUPO, Y VEMOS SI NO APUNTA
@@ -159,6 +162,19 @@ public class AfdMin {
 //                            }
 //                        }
                     }
+                    
+                    /*
+                     *Revisamos si quedo algo que no se cargo y quedo en
+                     *el grupo a añadir.
+                     */
+                    if(grupoAIntroducir.getGrupo().size() > 0 &&
+                            !this.conjuntoActual.contains(grupoAIntroducir)){
+                        
+                        this.conjuntoActual.add(grupoAIntroducir);
+                        contGrupo++;
+                        grupoAIntroducir = new Grupo(contGrupo);
+                        
+                    }
                     /*Si no se creo un nuevo grupo lo que hacemos es regresar
                      *el valor del contador de grupo, si se creo un nuevo
                      *grupo lo añadimos a conjunto inicial.*/
@@ -169,6 +185,7 @@ public class AfdMin {
 //                        this.conjuntoInicial.add(grupoAIntroducir);
 //                        seCreoNuevoGrupo = false;
 //                    }
+                    /*CONTROLAR QUE NO SEA DE SIZE ==0*/
                 }else{
                     this.conjuntoActual.add(grupo);
                 }
@@ -177,6 +194,9 @@ public class AfdMin {
            // this.actualizarVector();
             /*Si no se crearon nuevos grupos, terminamos el algoritmo*/
             if(tamañoConjInicial == this.conjuntoActual.size()){
+                continuar=false;
+                conjuntoInicial = conjuntoActual;
+            }else if(tamañoConjInicial > this.conjuntoActual.size()){
                 continuar=false;
             }else{
                 conjuntoInicial = conjuntoActual;
