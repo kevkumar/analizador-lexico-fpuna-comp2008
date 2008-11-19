@@ -40,6 +40,7 @@ public class Main {
         a.setCadenaEntrada("abb");
         boolean validado = a.validacion();
         afdmin = afdmin.minimizacion();
+        boolean validadoAfdMin = afdmin.validarCadena("abbbaabba");
         System.out.println(a.imprimir());
         System.out.println(afd.imprimir());
     }
