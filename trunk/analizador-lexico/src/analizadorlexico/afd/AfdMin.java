@@ -168,7 +168,10 @@ public class AfdMin {
 //                                        g.setEnlace(caracter);
 //                                    }
 //                                    grupoAIntroducir.getDestino().add(g);                      
-//                                }                     
+//                                }  
+                                if(conjAux.isConjFinal() | conjAux2.isConjFinal()){
+                                    grupoAIntroducir.setFinales(true);
+                                }
                             }
                         }
                         conjAux.setIdGrupo(grupoAIntroducir.getIdGrupo());
@@ -187,6 +190,8 @@ public class AfdMin {
                         
                     }
                 }else if(grupo.getGrupo().size() > 0){
+                    contGrupo++;
+                    grupo.setIdGrupo(contGrupo);
                     this.conjuntoActual.add(grupo);
                 }
                 
@@ -313,6 +318,39 @@ public class AfdMin {
             }
         }
         return retorno;
+    }
+    
+        /**
+     * Para validar la cadena si pertenece al lenguaje
+     * @param Cadena - Cadena de entrada a validar
+     * @return Retorna true si es valida la cadena, false si no.
+     */
+    public boolean validarCadena(String cadena){
+        boolean valido = false;
+        int nodo = 0;
+        int resultado = 0;
+        String carActual;
+        for(int i = 0; i < cadena.length(); i++){
+            carActual = cadena.charAt(i) + "";
+            resultado = conseguirIdLetra(carActual);
+            if(matrizMinima[nodo][resultado] != null){
+                nodo = matrizMinima[nodo][resultado].getIdGrupo();
+                valido = true;
+            }else{
+                valido =false;
+                break;
+            }
+        }
+        if(valido){
+            valido =false;
+            for(Grupo g:this.conjuntoInicial){
+                if(g.getIdGrupo() == nodo && g.isFinales()){
+                    valido = true;
+                    break;
+                }
+            }
+        }
+        return valido;
     }
     
     /* GETTERS Y SETTERS DE VARIABLES*/
