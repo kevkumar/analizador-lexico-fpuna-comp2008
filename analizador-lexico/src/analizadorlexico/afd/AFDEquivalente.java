@@ -11,13 +11,12 @@ package analizadorlexico.afd;
 
 import analizadorlexico.Afn;
 import analizadorlexico.Arco;
-import analizadorlexico.Arco;
 import analizadorlexico.Estado;
-import analizadorlexico.Estado;
-import analizadorlexico.Estado;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Stack;
@@ -50,6 +49,15 @@ public class AFDEquivalente {
             
     /* Transiciones del AFD*/
     private TransicionesAfd transiciones;
+
+    public String getGrafo() {
+        return grafo;
+    }
+
+    public void setGrafo(String grafo) {
+        this.grafo = grafo;
+    }
+    private String grafo;
             
     public AFDEquivalente() {        
         this.setEstadosIniciales(new ArrayList<ConjuntoDeEstados>());
@@ -196,19 +204,20 @@ public class AFDEquivalente {
             
             for(Object iteracion : valores){
                 
-                nodo = (HashNodeTransicion)iteracion;
+                nodo = (HashNodeTransicion)iteracion;                
                 destino = nodo.getEstadosDestino().getInicio(); 
                 if (destino != -1) {
                     elemento = getAdyacencia()[origen][destino];
                     if(elemento == null) 
                         elemento = "";
                     else
-                        if(nodo.getEntrada()!=""){
+                        if(!nodo.getEntrada().equalsIgnoreCase("")){
                             getAdyacencia()[origen][destino] = null;
                             continue;
                         }
                     getAdyacencia()[origen][destino] = elemento + nodo.getEntrada(); 
                 }
+                
             }
             
         }
@@ -315,6 +324,113 @@ public class AFDEquivalente {
         
         return respuesta;        
     }        
+    
+    /**
+     * Generar el archivo .dot para el graphviz
+     * @param  nombreArchivo Nombre del archivo de salida
+     */
+    public void generarGrafo(String nombreArchivo){        
+        try {
+            FileWriter fw = new FileWriter(nombreArchivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter salida = new PrintWriter(bw);            
+            String impr = "digraph finite_state_machine {\n" +
+                    " size=\"8,5\" \n" +
+                    " rankdir=LR \n" +
+                    " graph [aspect=\"1.333\"] \n" +                                        
+                    grafo +"}";
+            System.out.println(" grafo " + grafo);
+            System.out.println(" salida " + impr);
+            salida.println(impr);
+            salida.close();
+            }
+                catch (IOException ioex) {
+                System.out.println("se presento el error: " + ioex);
+            }
+
+    }    
+    
+    /**
+     * Para generar el grafo con el formato de salida
+     */
+    public void cargarGrafo(){                
+        grafo = "node [shape = doublecircle]; " + estadoInicial.getIdGrupo();
+        for(ConjuntoDeEstados estados : estadosFinales){
+            grafo = grafo + " " + estados.getInicio();
+        }
+        grafo = grafo + "; \n" +
+                " node [shape = circle]; \n ";
+                
+        for(int i = 0; i < adyacencia.length; i++){
+            for(int j = 0; j < adyacencia.length; j++){                
+                if(adyacencia[i][j] != null){
+                    System.out.println(" __" + i + j );
+                    grafo = grafo + i + " -> " + j + " [ label = \""+ adyacencia[i][j] +"\" ];\n";
+                }
+                System.out.println(" _______ " + adyacencia[i][j]);
+            }
+        }
+    }
+    
+    public String imprimirMatriz() {
+        String respuesta = "";
+        String espacio = "             ";
+        
+        respuesta = "Estado inicial:" + espacio + estadoInicial.getInicio();
+        respuesta = respuesta + "<br>Estados finales:" + espacio + "{ ";
+        respuesta = respuesta + imprimirEstadosFinales() + " }";
+        respuesta = respuesta + "<br><br><br>Matriz de estados:" + espacio + "<br>";
+        
+        respuesta = respuesta + "<table width=\"200\" border=\"1\">";
+  
+        respuesta = respuesta + "<tr> <td> <blockquote>&nbsp;</blockquote></td>";    
+        for(int i = 0; i < adyacencia.length; i++){
+            respuesta = respuesta + "<td>" + i + "</td>";
+        }        
+        respuesta = respuesta + "</tr>";    
+        for(int i = 0; i < adyacencia.length; i++){
+            respuesta = respuesta + "<br>" + "<tr><td>" + i + "</td>";
+            for(int j = 0; j < adyacencia.length; j++){                                
+                respuesta = respuesta + "<td>" + adyacencia[i][j] + "</td>";
+            }
+            respuesta = respuesta + "</tr>";
+        }                        
+        respuesta = respuesta + "</table>";
+        return respuesta;        
+    }        
+    
+    /**
+     * Para validar la cadena si pertenece al lenguaje
+     * @param Cadena - Cadena de entrada a validar
+     * @return Retorna el id del estado final o -1
+     */
+    public int validarCadena(String cadena){        
+        boolean valido = false;
+        int nodo = 0;
+        int resultado = -1;        
+        String arco;
+        for(int i = 0; i < cadena.length(); i++){
+            valido = false;
+            arco = cadena.charAt(i) + "";
+            for(int j = 0; j < adyacencia.length; j++){
+                if(adyacencia[nodo][j] != null && adyacencia[nodo][j].equalsIgnoreCase(arco)){
+                    nodo = j;
+                    valido = true;
+                }                    
+            }
+            if(!valido)
+                return -1;
+        }
+        for(ConjuntoDeEstados estados : estadosFinales){
+            if(estados.getInicio() == nodo)                
+               resultado = nodo;
+        }
+        return resultado;
+    }
+    
+    
+    
+    
 
     public List<ConjuntoDeEstados> getEstadosIniciales() {
         return estadosIniciales;
