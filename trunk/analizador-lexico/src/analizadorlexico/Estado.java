@@ -82,6 +82,16 @@ public class Estado {
     public void setEInicial(boolean eInicial) {
         this.eInicial = eInicial;
     }
+
+    public ArrayList<Arco> getArcosConVacio() {
+        ArrayList<Arco> arcosVacios = new ArrayList();
+        for(Arco arco:this.arcos){
+            if(arco.getIdArco().trim().equals("E")){
+                arcosVacios.add(arco);
+            }
+        }
+        return arcosVacios;
+    }
     
     
     

@@ -9,6 +9,8 @@
 
 package analizadorlexico;
 
+import analizadorlexico.afd.AFDEquivalente;
+import analizadorlexico.afd.ConjuntoDeEstados;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,6 +35,7 @@ public class Afn {
     
     private String expReg;
     private SetEstados estados;
+    private ArrayList<ConjuntoDeEstados> estadosValidacion;
     private Estado estadoInicial;
     private Estado estadoFinal;
     private Alfabeto alfabeto;
@@ -40,6 +43,9 @@ public class Afn {
     private Estado [][] matriz;
 
     private String grafo;
+    /*Cadena a a validar*/
+    private String cadenaEntrada;
+    private int posCadenaEntrada = -1;
 
     private String[][] matrizAdyacencia;
     
@@ -52,6 +58,7 @@ public class Afn {
         this.expReg = expReg;
         this.alfabeto = alf;
         this.estados = new SetEstados();
+        this.estadosValidacion = new ArrayList<ConjuntoDeEstados>();
         this.estadoInicial = new Estado();
         this.estadoFinal = new Estado();
         
@@ -62,6 +69,7 @@ public class Afn {
      */
     public Afn() {        
         this.estados = new SetEstados();
+        this.estadosValidacion = new ArrayList<ConjuntoDeEstados>();
         this.estadoInicial = new Estado();
         this.estadoFinal = new Estado();
     }
@@ -363,6 +371,7 @@ public class Afn {
         int n = getEstados().getEstados().size();
         setGrafo("");
         setMatrizAdyacencia(new String[n][n]);
+        this.getEstados().ordenar();
         for (int i = 0; i < n; i++) {
             Estado tmp = (Estado)estados.getEstados().get(i);
             ArrayList ca = tmp.getArcos();
@@ -403,6 +412,86 @@ public class Afn {
         resp = resp + " }";
         return resp;
     }
+    /**
+     *Metodo que nos permite validar una cadena de entrada
+     *Para empezar debemos setear cual es la expresion que sera analizada
+     *dentro de cadenaEntrada. Y pasarle el estado inicial del afn para que comience
+     *a ver si puede llegar a un estado final
+     */
+//    public Estado validacion(Estado estado) {
+//        
+//        Estado retorno = estado; 
+//        int pos = this.getPosCadenaEntrada();
+//        if(pos == -1 | pos == this.getCadenaEntrada().length()){
+//            return retorno;
+//        }
+//        String caracter =this.getCadenaEntrada().charAt(pos)+"";
+//        Arco enlace = this.buscarEstadoConLetra(caracter,retorno);
+//        
+//        
+//        /*Si el retorno es null, quiere decir que no existe un estado directo
+//         *al cual irme, entonces trato con los vacios*/
+//        if (enlace == null) {
+//            ArrayList<Arco> arcosVacios= estado.getArcosConVacio();
+//            
+//            for (Arco arco : arcosVacios) {
+//                
+//                Estado proximoEstado = arco.getDestino();       
+//                int sizeActual = this.getEstadosValidacion().getEstados().size();
+//                /*Insertamos el estado en que estamos*/
+//                this.getEstadosValidacion().getEstados().add(sizeActual,proximoEstado);
+//                retorno = this.validacion(proximoEstado);
+//                if (retorno != null) {
+//                    break;
+//                }
+//                this.estadosValidacion.getEstados().remove(sizeActual);
+//            }
+//        } else { 
+//            Estado proximoEstado = enlace.getDestino();        
+//            int sizeActual = this.getEstadosValidacion().getEstados().size();
+//                /*Insertamos el estado en que estamos*/
+//            this.getEstadosValidacion().getEstados().add(sizeActual,proximoEstado);
+//            this.posCadenaEntrada++;
+//            
+//            retorno = this.validacion(proximoEstado);
+//            
+//        }
+//        
+//        return retorno;         
+//    }
+    
+    private boolean validacion() {
+        boolean validado = true; 
+        
+        AFDEquivalente afdAux = new AFDEquivalente(this);
+        ConjuntoDeEstados S = new ConjuntoDeEstados();
+        S = afdAux.alcamzablesEstado(this.getEstadoInicial());
+        String c = this.cadenaEntrada.charAt(this.getPosCadenaEntrada())+"";
+        
+        this.estadosValidacion.add(S);
+        
+        while (c.compareToIgnoreCase("")!=0) {
+            S = afdAux.alcanzableSimbolo(S, c);
+            S = afdAux.alcamzablesConjunto(S);  
+            /*MENSAJE: VER ESTA COMPARACIÓN*/
+            if (S == null || S.getLista().size() == 0) {
+                validado = false;
+                break;
+            }
+                    
+            this.estadosValidacion.add(S);
+            
+            c = this.cadenaEntrada.charAt(this.getPosCadenaEntrada())+""; 
+        }
+        
+        if (validado) {
+            validado = this.esFinal(S);
+        }
+        
+        return validado; 
+    }
+
+
     
     /*
      *SETTERS Y GETTERS
@@ -527,6 +616,57 @@ public class Afn {
 
     public void setMatrizAdyacencia(String[][] matrizAdyacencia) {
         this.matrizAdyacencia = matrizAdyacencia;
+    }
+
+    private int getPosCadenaEntrada() {
+        this.posCadenaEntrada++;
+        if(this.posCadenaEntrada > this.getCadenaEntrada().length()){
+            return -1;
+        }
+        return posCadenaEntrada;
+    }
+    
+    private Arco buscarEstadoConLetra(String letra, Estado actual){
+        Estado estado = null;
+        Arco retorno = null;
+        for(int i =0;i<this.getEstados().getEstados().size();i++){
+            estado = this.getEstados().getEstados().get(i);
+            for(Arco itArco: estado.getArcos()){
+                if(itArco.getOrigen().getIdEstado() == actual.getIdEstado() && itArco.getIdArco().equals(letra)){
+                    retorno = itArco;
+                    return retorno;
+                }
+            }
+        }
+        return retorno;
+    }
+
+    public ArrayList<ConjuntoDeEstados> getEstadosValidacion() {
+        return estadosValidacion;
+    }
+
+    public void setEstadosValidacion(ArrayList<ConjuntoDeEstados> estadosValidacion) {
+        this.estadosValidacion = estadosValidacion;
+    }
+
+    public String getCadenaEntrada() {
+        return cadenaEntrada;
+    }
+
+    public void setCadenaEntrada(String cadenaEntrada) {
+        this.cadenaEntrada = cadenaEntrada;
+    }
+
+    private boolean esFinal(ConjuntoDeEstados S) {
+        boolean validado = false; 
+        for (Estado e : S.getLista() ) {
+            validado = e.isEFinal();
+            if (validado) {
+                break;
+            }
+        }        
+        return validado;
+
     }
     
 }

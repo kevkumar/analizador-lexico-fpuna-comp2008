@@ -36,7 +36,10 @@ public class Main {
         AFDEquivalente afd = new AFDEquivalente(a);
         afd.construirTransiciones();
         AfdMin afdmin = new AfdMin(afd);
-        afdmin = afdmin.minimizacion();
+        a.cargaMatriz();
+        a.setCadenaEntrada("a");
+        a.validacion(a.getEstadoInicial());
+        //afdmin = afdmin.minimizacion();
         System.out.println(a.imprimir());
         System.out.println(afd.imprimir());
     }
