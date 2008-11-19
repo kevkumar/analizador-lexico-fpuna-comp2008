@@ -26,6 +26,9 @@ public class AfdMin {
     private int vectorGrupo [];
     /*variable que mantiene el nro de grupo creado*/
     private int contGrupo =0;
+    ArrayList<String> alfa;
+    
+    private Grupo [][] matrizMinima;
     /**
      * Constructor que utiliza un afd para setear los valores
      * iniciales
@@ -51,7 +54,7 @@ public class AfdMin {
         Grupo grupoAIntroducir;
         
         /*Obtiene los caracteres del alfabeto*/
-        ArrayList<String> alfa = (ArrayList<String>) this.afd.getAfn().getAlfabeto().getCaracteres();
+        alfa = (ArrayList<String>) this.afd.getAfn().getAlfabeto().getCaracteres();
         
         finales.setGrupo((ArrayList<ConjuntoDeEstados>) this.afd.getEstadosFinales());
         finales.setFinales(true);
@@ -79,6 +82,9 @@ public class AfdMin {
         String valorCaracter;
         /*SIMPLE CONTADOR PARA VERIFICAR LA CANTIDAD DE ACIERTOS DE LAS LETRAS*/
         int cont =0;
+        /*Permite guardar la columna en la que se encuentra la letra buscada
+         *con buscarLetra*/
+        int posLetra;
         this.inicializarMatriz();
         /*Mientras no lleguemos a la condición de parada*/
         while(continuar){
@@ -125,8 +131,23 @@ public class AfdMin {
                             ConjuntoDeEstados conjAux2 = itNextEGrupo.next();
                             cont = 0;
                             for(String caracter : alfa){
-                                /*verificamos si apuntan al mismo grupo ambos con la misma variable*/
-                                boolean aComparar =this.matrizEstAlf[conjAux.getInicio()][conseguirIdLetra(caracter)].getIdGrupo() == this.matrizEstAlf[conjAux2.getInicio()][conseguirIdLetra(caracter)].getIdGrupo();
+                                /*verificamos si apuntan al mismo grupo ambos con la misma variable
+                                 Es necesario revisar antes que las entradas de la matriz no sean
+                                 null, en cuyo caso se hacen dos tipos de revisiones, si ambas son null
+                                 entonces se considera del mismo grupo, si uno solo es null, son de grupos
+                                 diferentes*/
+                                posLetra = conseguirIdLetra(caracter);
+                                boolean aComparar;
+                                if(this.matrizEstAlf[conjAux.getInicio()][posLetra] == null &&
+                                        this.matrizEstAlf[conjAux2.getInicio()][posLetra]==null){
+                                    aComparar = true;
+                                }else if(this.matrizEstAlf[conjAux.getInicio()][posLetra] == null | 
+                                        this.matrizEstAlf[conjAux2.getInicio()][posLetra] ==null){
+                                    aComparar=false;
+                                }else{
+                                    aComparar =this.matrizEstAlf[conjAux.getInicio()][posLetra].getIdGrupo() == 
+                                        this.matrizEstAlf[conjAux2.getInicio()][posLetra].getIdGrupo();
+                                }
                                 if(aComparar){
                                     cont++;
                                 }
@@ -137,7 +158,14 @@ public class AfdMin {
                                 grupoAIntroducir.getGrupo().add(conjAux2);
                                 itNextEGrupo.remove();
                                 itElemGrupo = grupo.getGrupo().iterator();
-                                
+//                                for(String caracter : alfa){
+//                                    posLetra = conseguirIdLetra(caracter);
+//                                    Grupo g = this.dondeEstaElEstado(this.matrizEstAlf[conjAux2.getInicio()][posLetra]);
+//                                    if(g !=null){
+//                                        g.setEnlace(caracter);
+//                                    }
+//                                    grupoAIntroducir.getDestino().add(g);                      
+//                                }                     
                             }
                         }
                         conjAux.setIdGrupo(grupoAIntroducir.getIdGrupo());
@@ -172,7 +200,7 @@ public class AfdMin {
             }
             
         }
-        
+        this.construirMatrizMinima();
         return this;
     }
     
@@ -234,6 +262,57 @@ public class AfdMin {
         }
     }
     
+    public void construirMatrizMinima(){
+        this.matrizMinima = new Grupo[this.conjuntoInicial.size()][this.alfa.size()];
+        int posLetra;
+        this.renumerarGrupos();
+        for(Grupo g : this.conjuntoInicial){
+            for(String letra:alfa){
+                ConjuntoDeEstados conjEst = g.getGrupo().get(0);
+                posLetra = conseguirIdLetra(letra);
+                ConjuntoDeEstados aux = this.matrizEstAlf[conjEst.getInicio()][posLetra];
+                for(Grupo g1 : this.conjuntoInicial){
+                    if(g1.getGrupo().contains(aux)){
+                        matrizMinima[g.getIdGrupo()][posLetra] = g1;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        
+    }
+    public void renumerarGrupos(){
+        int numeracionGrupos[] = new int[this.conjuntoInicial.size()];
+        int pos =0;
+        for(Grupo g : this.conjuntoInicial){
+            numeracionGrupos[pos]=g.getIdGrupo();
+            pos++;
+        }
+        int nuevoId =0;
+        java.util.Arrays.sort(numeracionGrupos);
+        for(int i=numeracionGrupos.length-1 ; i>-1 ; i--){
+            for(Grupo g : this.conjuntoInicial){
+                if(g.getIdGrupo()==numeracionGrupos[i]){
+                    g.setIdGrupo(nuevoId);
+                    nuevoId++;
+                    break;
+                }
+            }
+        }
+        
+    }
+    public Grupo dondeEstaElEstado(ConjuntoDeEstados conjEstados){
+        Grupo retorno=null;
+        for(Grupo g:this.conjuntoInicial){
+            if(g.getGrupo().contains(conjEstados)){
+                retorno=g;
+                break;
+            }
+        }
+        return retorno;
+    }
+    
     /* GETTERS Y SETTERS DE VARIABLES*/
     public /*Este afd es la entrada a ser procesada por el afd minimo*/
     AFDEquivalente getAfd() {
@@ -266,6 +345,14 @@ public class AfdMin {
 
     public void setMatrizEstAlf(ConjuntoDeEstados[][] matrizEstAlf) {
         this.matrizEstAlf = matrizEstAlf;
+    }
+
+    public Grupo[][] getMatrizMinima() {
+        return matrizMinima;
+    }
+
+    public void setMatrizMinima(Grupo[][] matrizMinima) {
+        this.matrizMinima = matrizMinima;
     }
     
 }

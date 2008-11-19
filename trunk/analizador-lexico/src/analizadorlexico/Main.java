@@ -31,7 +31,7 @@ public class Main {
         alf.cargarAlfabeto("a,b,E");
         alf.setHayVacio(true);                
         
-        Afn a = new Afn("(a|b)*abb$", alf);
+        Afn a = new Afn("(a|b)$", alf);
         a = a.generar();
         AFDEquivalente afd = new AFDEquivalente(a);
         afd.construirTransiciones();
@@ -39,7 +39,7 @@ public class Main {
         a.cargaMatriz();
         a.setCadenaEntrada("abb");
         boolean validado = a.validacion();
-        //afdmin = afdmin.minimizacion();
+        afdmin = afdmin.minimizacion();
         System.out.println(a.imprimir());
         System.out.println(afd.imprimir());
     }

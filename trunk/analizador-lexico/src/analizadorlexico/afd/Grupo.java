@@ -20,6 +20,8 @@ public class Grupo {
     private ArrayList<ConjuntoDeEstados> grupo;
     private int idGrupo;
     private boolean finales;
+    private String enlace;
+    private ArrayList<Grupo> destino;
     /**
      * Creates a new instance of Grupo
      */
@@ -28,6 +30,7 @@ public class Grupo {
         this.grupo = new ArrayList<ConjuntoDeEstados>();
         this.setIdGrupo(idgrupo);
         this.setFinales(false);
+        this.destino = new ArrayList<Grupo>();
     }
 
     public ArrayList<ConjuntoDeEstados> getGrupo() {
@@ -52,6 +55,22 @@ public class Grupo {
 
     public void setFinales(boolean finales) {
         this.finales = finales;
+    }
+
+    public ArrayList<Grupo> getDestino() {
+        return destino;
+    }
+
+    public void setDestino(ArrayList<Grupo> destino) {
+        this.destino = destino;
+    }
+
+    public String getEnlace() {
+        return enlace;
+    }
+
+    public void setEnlace(String enlace) {
+        this.enlace = enlace;
     }
     
 }
