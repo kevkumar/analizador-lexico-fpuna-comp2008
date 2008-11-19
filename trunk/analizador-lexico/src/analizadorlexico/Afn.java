@@ -460,13 +460,14 @@ public class Afn {
 //        return retorno;         
 //    }
     
-    private boolean validacion() {
-        boolean validado = true; 
+    public boolean validacion() {
+        boolean validado = true;
+        int pos =this.getPosCadenaEntrada();
         
         AFDEquivalente afdAux = new AFDEquivalente(this);
         ConjuntoDeEstados S = new ConjuntoDeEstados();
         S = afdAux.alcamzablesEstado(this.getEstadoInicial());
-        String c = this.cadenaEntrada.charAt(this.getPosCadenaEntrada())+"";
+        String c = this.cadenaEntrada.charAt(pos)+"";
         
         this.estadosValidacion.add(S);
         
@@ -480,8 +481,11 @@ public class Afn {
             }
                     
             this.estadosValidacion.add(S);
-            
-            c = this.cadenaEntrada.charAt(this.getPosCadenaEntrada())+""; 
+            if(pos == this.cadenaEntrada.length()-1){
+                break;
+            }
+            pos =this.getPosCadenaEntrada();
+            c = this.cadenaEntrada.charAt(pos)+""; 
         }
         
         if (validado) {
