@@ -12,7 +12,7 @@ package analizadorlexico;
 /**
  *
  * @author Huguis
- *Esta clase hace uso de la clase AFN para resolver la expresiï¿½n regular y devolver
+ *Esta clase hace uso de la clase AFN para resolver la expresión regular y devolver
  *un AFN con sus estados.
  *BNF
  * ExpReg ->  simple Aux1
@@ -92,7 +92,7 @@ public class Analizador {
         }
         return afns1;
     }
-    /*FALTA*/
+    
     public Afn basico(){
         Afn afnb1=null;
         afnb1 = lista();
@@ -136,7 +136,7 @@ public class Analizador {
         
         return afna1;
     }
-    /*VERIFICAR A FONDO ESTA FUNCIï¿½N SI FUNCIONA*/
+    
     public Afn alfabeto(){
         Afn afnAlf1=null;
         if(!this.preanalisis.getValor().trim().equals("$")){
