@@ -14,8 +14,8 @@ import java.util.List;
 
 /**
  *Esta clase nos permitira definir y cargar datos de los alfabetos que utilizarï¿½n
- *las expresiones regulares que luego serï¿½n analizadas.
- * @author Huguis
+ *las expresiones regulares que luego serán analizadas.
+ * @author Hugo Daniel Meyer-Leopoldo Poletti
  *
  */
 public class Alfabeto {
