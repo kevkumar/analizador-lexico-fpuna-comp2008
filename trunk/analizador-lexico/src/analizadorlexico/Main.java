@@ -31,7 +31,7 @@ public class Main {
         alf.cargarAlfabeto("a,b,E");
         alf.setHayVacio(true);                
         
-        Afn a = new Afn("(a|b)$", alf);
+        Afn a = new Afn("(a|b)*abb$", alf);
         a = a.generar();
         AFDEquivalente afd = new AFDEquivalente(a);
         afd.construirTransiciones();

@@ -74,9 +74,12 @@ public class AfdMin {
                 this.vectorGrupo[aux.getInicio()] = 0;
             }
         }
-        
-        this.conjuntoInicial.add(finales);
-        this.conjuntoInicial.add(noFinales);
+        if(finales.getGrupo().size()>0){
+            this.conjuntoInicial.add(finales);
+        }
+        if(noFinales.getGrupo().size()>0){
+            this.conjuntoInicial.add(noFinales);
+        }
         boolean continuar =true;
         /*guarda el valor del caracter leido de la matriz*/
         String valorCaracter;
@@ -183,7 +186,7 @@ public class AfdMin {
                         grupoAIntroducir = new Grupo(contGrupo);
                         
                     }
-                }else{
+                }else if(grupo.getGrupo().size() > 0){
                     this.conjuntoActual.add(grupo);
                 }
                 
@@ -278,7 +281,6 @@ public class AfdMin {
                     }
                 }
             }
-            
         }
         
     }
