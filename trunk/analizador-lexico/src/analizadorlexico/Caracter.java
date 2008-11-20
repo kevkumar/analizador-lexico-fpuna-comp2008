@@ -10,8 +10,8 @@
 package analizadorlexico;
 
 /**
- *
- * @author Huguis
+ * Clase que representa un caracter o token del alfabeto.
+ * @author Hugo Daniel Meyer - Leopoldo Poletti
  */
 public class Caracter {
 
@@ -22,18 +22,34 @@ public class Caracter {
     public Caracter() {
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getValor() {
         return valor;
     }
 
+    /**
+     * 
+     * @param valor 
+     */
     public void setValor(String valor) {
         this.valor = valor;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean isDelAlfabeto() {
         return delAlfabeto;
     }
 
+    /**
+     * 
+     * @param delAlfabeto 
+     */
     public void setDelAlfabeto(boolean delAlfabeto) {
         this.delAlfabeto = delAlfabeto;
     }

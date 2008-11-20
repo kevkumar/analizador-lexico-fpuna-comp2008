@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
- *
- * @author Huguis
+ * Representa un conjunto de estados.
+ * @author Hugo Daniel Meyer - Leopoldo Poletti
  */
 public class SetEstados {
     
@@ -22,14 +22,25 @@ public class SetEstados {
      */
     private ArrayList<Estado> estados;
     
+    /**
+     * Constructor Vacio que inicializa el array de estados
+     */
     public SetEstados() {
         setEstados(new ArrayList<Estado>());
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Estado> getEstados() {
         return estados;
     }
 
+    /**
+     * 
+     * @param estados 
+     */
     public void setEstados(ArrayList<Estado> estados) {
         this.estados = estados;
     }

@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 /**
  * 
- * @author Huguis
  * AQUI IMPLEMENTAMOS EL AUTOMATA FINITO NO DETERMINISTA, PARA ESTO UTILIZAMOS
  * LOS OPERADORES DEFINIDOS POR THOMPSON E IMPLEMENTAMOS SU ALGORITMO.
  * COMO SABEMOS UN AFN CONSTA DE:
@@ -30,6 +29,8 @@ import java.util.Iterator;
  * 4- UN CONJUNTO DE ESTADOS FINALES(solo uno)
  * 5- UN CONJUNTO DE SIMBOLOS DE ENTRADA(ALFABETO)
  * 6- UNA MATRIZ DE ESTADOS VS SIMBOLOS DE ENTRADA, DONDE EL CONTENIDO SON CONJUNTOS DE ESTADOS
+ * @author Hugo Daniel Meyer Leopoldo Poletti
+ * 
  */
 public class Afn {
     
@@ -49,10 +50,11 @@ public class Afn {
 
     private String[][] matrizAdyacencia;
     
-    /** Creamos una nueva instancia de AFN, donde se recibe la expresiï¿½n 
-     *regular de entrada y el alfabeto.
-     * @param expReg 
-     * @param alf 
+    /**
+     * Creamos una nueva instancia de AFN, donde se recibe la expresión 
+     * regular de entrada y el alfabeto.
+     * @param expReg Expresión regular de entrada
+     * @param alf Alfabeto
      */
     public Afn(String expReg, Alfabeto alf) {
         this.expReg = expReg;
@@ -331,28 +333,12 @@ public class Afn {
             estadoAux.setIdEstado(estadoAux.getIdEstado()+ valor);
         }
     }
+
     /**
-     *Esta funciï¿½n nos permite crear la matriz de estados
-     * 
-     **/
-//    public void cargaMatriz(){
-//        int n = this.getEstados().getEstados().size();
-//        this.matriz = new Estado[n][n];
-//        for (int i = 0; i < n; i++) {
-//            Estado tmp = estados.getEstado(i);
-//            ConjuntoArcos ca = tmp.getConjuntoArcos();
-//            for (int k = 0; k < ca.cantidad(); k++) {
-//               Arco a = ca.getArco(k);
-//               int m = a.getDestino().getNombre();
-//               //matrizAdyacencia[i][m] = a.getNombre();
-//               String nom = a.getNombre();
-//               if(matrizAdyacencia[i][m] == null)
-//                   matrizAdyacencia[i][m] = nom;
-//               else
-//                   matrizAdyacencia[i][m] = matrizAdyacencia[i][m] + nom;
-//            }
-//        }
-//    }
+     * Función que nos permite utilizar el graphvits para 
+     * realizar la impresión de los grafos del afn
+     * @param nombreArchivo Donde escribiremos la salida
+     */
     public void generarGrafos(String nombreArchivo) {
         try {
             FileWriter fw = new FileWriter(nombreArchivo);
@@ -367,6 +353,10 @@ public class Afn {
     }
     
     
+    /**
+     * Carga la matriz de Adyacencia para que luego pueda ser
+     * impresa
+     */
     public void cargaMatriz() {
         int n = getEstados().getEstados().size();
         setGrafo("");
@@ -392,8 +382,10 @@ public class Afn {
         System.out.println((new StringBuilder()).append("Grafo formado \n").append(getGrafo()).toString());
     }
     /**
-     * Imprime el afn en cuestiÃ³n
-     * */
+     * Imprime el afn en cuestión con su alfabeto, arcos
+     * y estados
+     * @return retorna el string formado
+     */
     public String imprimir() {
         String resp;
         String tabulador = "    ";
@@ -413,53 +405,12 @@ public class Afn {
         return resp;
     }
     /**
-     *Metodo que nos permite validar una cadena de entrada
-     *Para empezar debemos setear cual es la expresion que sera analizada
-     *dentro de cadenaEntrada. Y pasarle el estado inicial del afn para que comience
-     *a ver si puede llegar a un estado final
+     * Metodo que nos permite validar una cadena de entrada
+     * Para empezar debemos setear cual es la expresion que sera analizada
+     * dentro de cadenaEntrada.Utiliza los metodos que estan en la clase
+     * AFD para definir si es valida o no la cadena.
+     * @return Booleano que define si la cadena se acepta o no.
      */
-//    public Estado validacion(Estado estado) {
-//        
-//        Estado retorno = estado; 
-//        int pos = this.getPosCadenaEntrada();
-//        if(pos == -1 | pos == this.getCadenaEntrada().length()){
-//            return retorno;
-//        }
-//        String caracter =this.getCadenaEntrada().charAt(pos)+"";
-//        Arco enlace = this.buscarEstadoConLetra(caracter,retorno);
-//        
-//        
-//        /*Si el retorno es null, quiere decir que no existe un estado directo
-//         *al cual irme, entonces trato con los vacios*/
-//        if (enlace == null) {
-//            ArrayList<Arco> arcosVacios= estado.getArcosConVacio();
-//            
-//            for (Arco arco : arcosVacios) {
-//                
-//                Estado proximoEstado = arco.getDestino();       
-//                int sizeActual = this.getEstadosValidacion().getEstados().size();
-//                /*Insertamos el estado en que estamos*/
-//                this.getEstadosValidacion().getEstados().add(sizeActual,proximoEstado);
-//                retorno = this.validacion(proximoEstado);
-//                if (retorno != null) {
-//                    break;
-//                }
-//                this.estadosValidacion.getEstados().remove(sizeActual);
-//            }
-//        } else { 
-//            Estado proximoEstado = enlace.getDestino();        
-//            int sizeActual = this.getEstadosValidacion().getEstados().size();
-//                /*Insertamos el estado en que estamos*/
-//            this.getEstadosValidacion().getEstados().add(sizeActual,proximoEstado);
-//            this.posCadenaEntrada++;
-//            
-//            retorno = this.validacion(proximoEstado);
-//            
-//        }
-//        
-//        return retorno;         
-//    }
-    
     public boolean validacion() {
         boolean validado = true;
         int pos =this.getPosCadenaEntrada();
@@ -606,18 +557,34 @@ public class Afn {
         return retorno;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getGrafo() {
         return grafo;
     }
 
+    /**
+     * 
+     * @param grafo 
+     */
     public void setGrafo(String grafo) {
         this.grafo = grafo;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String[][] getMatrizAdyacencia() {
         return matrizAdyacencia;
     }
 
+    /**
+     * 
+     * @param matrizAdyacencia 
+     */
     public void setMatrizAdyacencia(String[][] matrizAdyacencia) {
         this.matrizAdyacencia = matrizAdyacencia;
     }
@@ -645,18 +612,34 @@ public class Afn {
         return retorno;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<ConjuntoDeEstados> getEstadosValidacion() {
         return estadosValidacion;
     }
 
+    /**
+     * 
+     * @param estadosValidacion 
+     */
     public void setEstadosValidacion(ArrayList<ConjuntoDeEstados> estadosValidacion) {
         this.estadosValidacion = estadosValidacion;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getCadenaEntrada() {
         return cadenaEntrada;
     }
 
+    /**
+     * 
+     * @param cadenaEntrada 
+     */
     public void setCadenaEntrada(String cadenaEntrada) {
         this.cadenaEntrada = cadenaEntrada;
     }

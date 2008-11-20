@@ -21,7 +21,8 @@ import java.util.List;
 public class Alfabeto {
     
     /**
-     * Creates a new instance of Alfabeto
+     * Crea un nuevo objeto alfabeto e inicializa el array
+     * de caracteres
      */
     public Alfabeto() {
         this.caracteres = new ArrayList();
@@ -37,6 +38,11 @@ public class Alfabeto {
     
     private boolean hayVacio = false;
     
+    /**
+     * Recibe el alfabeto como un string y lo carga
+     * en el array del alfabeto
+     * @param caracteres Alfabeto en un String
+     */
     public void cargarAlfabeto(String caracteres){
         String[] valores= caracteres.split(",");
         for (int i=0; i < valores.length; i++){
@@ -48,33 +54,58 @@ public class Alfabeto {
         }
     }
 
+    /**
+     * 
+     * @return 
+     */
     public List getCaracteres() {
         return caracteres;
     }
 
+    /**
+     * 
+     * @param caracteres 
+     */
     public void setCaracteres(List caracteres) {
         this.caracteres = caracteres;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getVacio() {
         return vacio;
     }
 
+    /**
+     * 
+     * @param vacio 
+     */
     public void setVacio(String vacio) {
         this.vacio = vacio;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean isHayVacio() {
         return hayVacio;
     }
 
+    /**
+     * 
+     * @param hayVacio 
+     */
     public void setHayVacio(boolean hayVacio) {
         this.hayVacio = hayVacio;
     }
     
     /**
-     * 
-     * @return 
+     * Realiza el formateo del alfabeto y lo carga
+     * para su impresión
+     * @return String que se debe imprimir
      */
     public String imprimir() {
         String resp = "Alfabeto = { ";

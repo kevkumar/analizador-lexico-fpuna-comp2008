@@ -10,8 +10,10 @@
 package analizadorlexico;
 
 /**
- *
- * @author Propietario
+ * Esta clase representa un arco entre estados, teniendo
+ * su origen y su destino, ademas del id del arco, el cual
+ * sería la letra del alfabeto o E con la cual se hace la transcisión
+ * @author Leopoldo Poletti - Hugo Daniel Meyer
  */
 public class Arco {
     //IDENTIFICADOR DEL ARCO
@@ -23,33 +25,62 @@ public class Arco {
     //DESTINO DEL ARCO
     private Estado destino;
     
-    /** Creates a new instance of Arco */
+    /**
+     * Nuevo Objeto
+     * @param idArco String que indica con que letra nos movemos
+     * @param origen Estado Origen
+     * @param destino Estado Destino
+     */
     public Arco(String idArco, Estado origen, Estado destino) {
         this.setIdArco(idArco);
         this.setOrigen(origen);
         this.setDestino(destino);
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getIdArco() {
         return idArco;
     }
 
+    /**
+     * 
+     * @param idArco 
+     */
     public void setIdArco(String idArco) {
         this.idArco = idArco;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Estado getOrigen() {
         return origen;
     }
 
+    /**
+     * 
+     * @param origen 
+     */
     public void setOrigen(Estado origen) {
         this.origen = origen;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Estado getDestino() {
         return destino;
     }
 
+    /**
+     * 
+     * @param destino 
+     */
     public void setDestino(Estado destino) {
         this.destino = destino;
     }
