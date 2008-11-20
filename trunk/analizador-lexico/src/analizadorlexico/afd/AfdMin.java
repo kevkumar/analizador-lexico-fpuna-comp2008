@@ -473,7 +473,7 @@ public class AfdMin {
         return valido;
     }
     
-    /**
+   /**
      * MEtodo para generar la simulacion, 
      * va recibiendo caracteres, genera el grafo para dibujar
      * y guarda el estado actual del nodo
@@ -491,8 +491,8 @@ public class AfdMin {
             if(carac.equals(caracter))
                 break;
         }        
-        nodosPintar = " " + nodoActual + " [color=red]; ";        
-        nodosPintar = " " + matrizMinima[nodoActual][columna].getIdGrupo() + " [style=filled,color=red]; ";        
+        nodosPintar = " " + nodoActual + " [color=red]; \n  ";    
+        nodosPintar = " " + nodosPintar + matrizMinima[nodoActual][columna].getIdGrupo() + " [style=filled,color=red]; ";        
         nodoActual = matrizMinima[nodoActual][columna].getIdGrupo();                    
         
     }

@@ -344,14 +344,15 @@ public class Afn {
             FileWriter fw = new FileWriter(nombreArchivo);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter salida = new PrintWriter(bw);
-            salida.println("digraph finite_state_machine {\n size=\"8,5\" \n rankdir=LR \n graph [aspect=\"1.333\"] \n node [shape = doublecircle]; 0 10; \n node [shape = circle]; \n" + getGrafo() +"}");
+            salida.println("digraph finite_state_machine {\n size=\"8,5\" \n rankdir=LR \n graph [aspect=\"1.333\"] \n node [shape = doublecircle]; " +
+                estadoInicial.getIdEstado() + " " + estadoFinal.getIdEstado() + "; \n node [shape = circle]; \n" + getGrafo() +"}");
             salida.close();
         } catch (IOException ioex) {
             System.out.println((new StringBuilder()).append("se presento el error: ").append(ioex.toString()).toString());
         }
         cargaMatriz();
     }
-    
+
     
     /**
      * Carga la matriz de Adyacencia para que luego pueda ser
