@@ -407,7 +407,7 @@ public class AfdMin {
                 break;
         }        
         nodosPintar = " " + nodoActual + " [color=red]; ";        
-        nodosPintar = " " + matrizMinima[nodoActual][columna].getIdGrupo() + " [color=red]; ";        
+        nodosPintar = " " + matrizMinima[nodoActual][columna].getIdGrupo() + " [style=filled,color=red]; ";        
         nodoActual = matrizMinima[nodoActual][columna].getIdGrupo();                    
         
     }
@@ -427,7 +427,7 @@ public class AfdMin {
         for(int i = 0; i < conjuntoInicial.size(); i++){
             for(int j = 0; j < alfa.size(); j++){                
                 if(matrizMinima[i][j] != null ){                                                             
-                    grafo = grafo + i + " -> " + matrizMinima[i][j].getIdGrupo() + " [ label = \""+ alfa.get(j).toString() +"\" ];\n";
+                    grafo = grafo + i + " -> " + matrizMinima[i][j].getIdGrupo() + " [ label = \""+ alfa.get(j) +"\" ];\n";
                 }                
             }
         }
