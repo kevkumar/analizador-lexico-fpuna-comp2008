@@ -5,10 +5,12 @@
 
 package analizadorlexico.afd;
 
-import analizadorlexico.Alfabeto;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  *Esta clase implementa las operaciones necesarias para pasar desde
@@ -29,6 +31,39 @@ public class AfdMin {
     ArrayList<String> alfa;
     
     private Grupo [][] matrizMinima;
+    
+    /*Variables para utilizar en la generacion del archivo .dot*/
+    private String grafo;
+    private String nodosPintar;
+
+    public String getNodosPintar() {
+        return nodosPintar;
+    }
+
+    public void setNodosPintar(String nodosPintar) {
+        this.nodosPintar = nodosPintar;
+    }
+    
+    /*Variables para la simulacion*/    
+    private int nodoActual;
+    private boolean inicioSimulacion = true;
+
+    public String getGrafo() {
+        return grafo;
+    }
+
+    public void setGrafo(String grafo) {
+        this.grafo = grafo;
+    }
+
+    public boolean isInicioSimulacion() {
+        return inicioSimulacion;
+    }
+
+    public void setInicioSimulacion(boolean inicioSimulacion) {
+        this.inicioSimulacion = inicioSimulacion;
+    }
+    
     /**
      * Constructor que utiliza un afd para setear los valores
      * iniciales
@@ -351,6 +386,74 @@ public class AfdMin {
             }
         }
         return valido;
+    }
+    
+    /**
+     * MEtodo para generar la simulacion, 
+     * va recibiendo caracteres, genera el grafo para dibujar
+     * y guarda el estado actual del nodo
+     * 
+     * @param caracter - Caracter de la transicion
+     */
+    public void generarSimulacion(String caracter){        
+        if(inicioSimulacion){
+            nodoActual = 0;
+            inicioSimulacion = false;
+        }            
+        int columna = -1;
+        for(String carac : alfa){
+            columna++;
+            if(carac.equals(caracter))
+                break;
+        }        
+        nodosPintar = " " + nodoActual + " [color=red]; ";        
+        nodosPintar = " " + matrizMinima[nodoActual][columna].getIdGrupo() + " [color=red]; ";        
+        nodoActual = matrizMinima[nodoActual][columna].getIdGrupo();                    
+        
+    }
+    
+    /**
+     * Para generar el grafo con el formato de salida
+     */
+    public void cargarGrafo(){                
+        grafo = "node [shape = doublecircle]; " + " 0 ";
+        for(Grupo grupo : conjuntoInicial){
+            if(grupo.isFinales())
+                grafo = grafo + " " + grupo.getIdGrupo();
+        }
+        grafo = grafo + "; \n" +
+                " node [shape = circle]; \n ";
+                
+        for(int i = 0; i < conjuntoInicial.size(); i++){
+            for(int j = 0; j < alfa.size(); j++){                
+                if(matrizMinima[i][j] != null ){                                                             
+                    grafo = grafo + i + " -> " + matrizMinima[i][j].getIdGrupo() + " [ label = \""+ alfa.get(j).toString() +"\" ];\n";
+                }                
+            }
+        }
+    }
+    
+    /**
+     * Generar el archivo .dot para el graphviz
+     * @param  nombreArchivo Nombre del archivo de salida
+     */
+    public void generarGrafo(String nombreArchivo){        
+        try {
+            FileWriter fw = new FileWriter(nombreArchivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter salida = new PrintWriter(bw);            
+            String impr = "digraph finite_state_machine {\n" +
+                    " size=\"8,5\" \n" +
+                    " rankdir=LR \n" +
+                    " graph [aspect=\"1.333\"] \n" +                                        
+                    grafo + nodosPintar + "}";                        
+            salida.println(impr);
+            salida.close();
+            }
+                catch (IOException ioex) {
+                System.out.println("se presento el error: " + ioex);
+            }
+
     }
     
     /* GETTERS Y SETTERS DE VARIABLES*/
