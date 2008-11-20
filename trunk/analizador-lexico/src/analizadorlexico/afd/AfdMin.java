@@ -153,9 +153,29 @@ public class AfdMin {
                             for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
                                 conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
                             }
-                            this.conjuntoActual.add(grupoAIntroducir);
-                            contGrupo++;
-                            grupoAIntroducir = new Grupo(contGrupo);
+                            /*Revisamos si el último grupo añadido a conjunto inicial tiene al estado inicial del afd*/
+                            if(this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().contains(this.afd.getEstadosMarcados().get(0))){
+                                Grupo g = this.conjuntoActual.get(this.conjuntoActual.size()-1);
+                                this.conjuntoActual.remove(this.conjuntoActual.size()-1);
+                                grupoAIntroducir.setIdGrupo(grupoAIntroducir.getIdGrupo()-1);
+                                this.conjuntoActual.add(grupoAIntroducir);
+                                g.setIdGrupo(cont);
+                                this.conjuntoActual.add(g);
+                                contGrupo++;
+                                grupoAIntroducir = new Grupo(contGrupo);
+                            }else{
+                                this.conjuntoActual.add(grupoAIntroducir);
+                                contGrupo++;
+                                grupoAIntroducir = new Grupo(contGrupo);
+                            }
+//                            if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
+//                                int aux = grupoAIntroducir.getIdGrupo();
+//                                grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
+//                                this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
+//                            }
+//                            this.conjuntoActual.add(grupoAIntroducir);
+//                            contGrupo++;
+//                            grupoAIntroducir = new Grupo(contGrupo);
                         }
                         /*TOMADO EL ESTADO LO REMUEVO*/
                         itElemGrupo.remove();
@@ -169,12 +189,16 @@ public class AfdMin {
                             for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
                                 conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
                             }
-                            if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
-                                int aux = grupoAIntroducir.getIdGrupo();
-                                grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
-                                this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
+                            if(this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().contains(this.afd.getEstadosMarcados().get(0))){
+                                Grupo g = this.conjuntoActual.get(this.conjuntoActual.size()-1);
+                                this.conjuntoActual.remove(this.conjuntoActual.size()-1);
+                                grupoAIntroducir.setIdGrupo(grupoAIntroducir.getIdGrupo()-1);
+                                this.conjuntoActual.add(grupoAIntroducir);
+                                g.setIdGrupo(cont);
+                                this.conjuntoActual.add(g);
+                            }else{
+                                this.conjuntoActual.add(grupoAIntroducir);
                             }
-                            this.conjuntoActual.add(grupoAIntroducir);
                         }
                         while(itNextEGrupo.hasNext()){
                             ConjuntoDeEstados conjAux2 = itNextEGrupo.next();
@@ -237,16 +261,29 @@ public class AfdMin {
                         for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
                                 conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
                             }
-                        if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
-                            int aux = grupoAIntroducir.getIdGrupo();
-                            grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
-                            this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
+//                        if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
+//                            int aux = grupoAIntroducir.getIdGrupo();
+//                            grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
+//                            this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
+//                        }
+//                        this.conjuntoActual.add(grupoAIntroducir);
+//                        
+//                        contGrupo++;
+//                        grupoAIntroducir = new Grupo(contGrupo);
+                        if(this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().contains(this.afd.getEstadosMarcados().get(0))){
+                            Grupo g = this.conjuntoActual.get(this.conjuntoActual.size()-1);
+                            this.conjuntoActual.remove(this.conjuntoActual.size()-1);
+                            grupoAIntroducir.setIdGrupo(grupoAIntroducir.getIdGrupo()-1);
+                            this.conjuntoActual.add(grupoAIntroducir);
+                            g.setIdGrupo(cont);
+                            this.conjuntoActual.add(g);
+                            contGrupo++;
+                            grupoAIntroducir = new Grupo(contGrupo);
+                        }else{
+                            this.conjuntoActual.add(grupoAIntroducir);
+                            contGrupo++;
+                            grupoAIntroducir = new Grupo(contGrupo);
                         }
-                        this.conjuntoActual.add(grupoAIntroducir);
-                        
-                        contGrupo++;
-                        grupoAIntroducir = new Grupo(contGrupo);
-                        
                     }
                 }else if(grupo.getGrupo().size() > 0){
                     contGrupo++;
@@ -270,6 +307,7 @@ public class AfdMin {
             }
             
         }
+        //this.renumerarGrupos();
         this.construirMatrizMinima();
         return this;
     }
@@ -351,6 +389,26 @@ public class AfdMin {
         }
         
     }
+//    public void construirMatrizMinima(){
+//        this.matrizMinima = new Grupo[this.conjuntoInicial.size()][this.alfa.size()];
+//        int posLetra;
+//        int numeradorGrupo = -1;
+//        for(Grupo g : this.conjuntoInicial){
+//            for()
+//            for(String letra:alfa){
+//                ConjuntoDeEstados conjEst = g.getGrupo().get(0);
+//                posLetra = conseguirIdLetra(letra);
+//                ConjuntoDeEstados aux = this.matrizEstAlf[conjEst.getInicio()][posLetra];
+//                for(Grupo g1 : this.conjuntoInicial){
+//                    if(g1.getGrupo().contains(aux)){
+//                        matrizMinima[g.getIdGrupo()][posLetra] = g1;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        
+//    }
     public void renumerarGrupos(){
         int numeracionGrupos[] = new int[this.conjuntoInicial.size()];
         int pos =0;
