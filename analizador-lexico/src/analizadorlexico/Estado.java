@@ -11,18 +11,23 @@ package analizadorlexico;
 import java.util.ArrayList;
 
 /**
- *
- * @author Huguis
- *AQUI DEFINIMOS UN ESTADO, CON SUS ATRIBUTOS CORRESPONDIENTES
+ * Se define un estado con sus atributos correspondientes y necesarios.
+ * @author Leopoldo Poletti - Hugo Daniel Meyer
  */
 public class Estado {
 
+    /**
+     * Constructor Vacio
+     */
     public Estado() {
     }
     
     
     
-    /** Creates a new instance of Estado */
+    /**
+     * Construye un estado con el Id del estado que le pasemos
+     * @param id Id del estado a crear
+     */
     public Estado(int id) {
         this.idEstado =id;
         arcos = new ArrayList<Arco>();
@@ -43,46 +48,90 @@ public class Estado {
     private boolean eInicial=false;
            
     
+    /**
+     * 
+     * @return 
+     */
     public int getIdEstado() {
         return idEstado;
     }
 
+    /**
+     * 
+     * @param idEstado 
+     */
     public void setIdEstado(int idEstado) {
         this.idEstado = idEstado;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean isMarcado() {
         return marcado;
     }
 
+    /**
+     * 
+     * @param marcado 
+     */
     public void setMarcado(boolean marcado) {
         this.marcado = marcado;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Arco> getArcos() {
         return arcos;
     }
 
+    /**
+     * 
+     * @param arcos 
+     */
     public void setArcos(ArrayList<Arco> arcos) {
         this.arcos = arcos;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean isEFinal() {
         return eFinal;
     }
 
+    /**
+     * 
+     * @param eFinal 
+     */
     public void setEFinal(boolean eFinal) {
         this.eFinal = eFinal;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean isEInicial() {
         return eInicial;
     }
 
+    /**
+     * 
+     * @param eInicial 
+     */
     public void setEInicial(boolean eInicial) {
         this.eInicial = eInicial;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Arco> getArcosConVacio() {
         ArrayList<Arco> arcosVacios = new ArrayList();
         for(Arco arco:this.arcos){

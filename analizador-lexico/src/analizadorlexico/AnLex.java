@@ -12,13 +12,14 @@ package analizadorlexico;
 import com.sun.org.apache.bcel.internal.generic.SWITCH;
 
 /**
- *
- * @author Propietario
+ * Analiza la cadena introducida de manera Léxica, utilizando las
+ * funciones de sgteCaracter y consumir
+ * @author Leopoldo Poletti - Hugo Daniel Meyer
  */
 public class AnLex {
     
     /**
-     * Creates a new instance of AnLex
+     * Nueva instancia de la clase
      */
     public AnLex() {
     }
@@ -29,15 +30,22 @@ public class AnLex {
      */
     private Alfabeto alfabeto;
     
+    /**
+     * Nueva instancia creada a partir de una expresión regular y su 
+     * alfabeto.
+     * @param expr Expresión regular de entrada
+     * @param alfabeto Alfabeto de entrada
+     */
     public AnLex(String expr, Alfabeto alfabeto) {
         this.expr = expr;
         this.alfabeto = alfabeto;
     }
     
     /**
-     *Ak realizamos la comparación entre los caracteres que vamos leyendo
-     *y los que tenemos disponibles, que son * , +, ? , |, (, ), letras_del_alfabeto, 
-     *$(caracter de fin).
+     * Aquí realizamos la comparación entre los caracteres que vamos leyendo
+     * y los que tenemos disponibles, que son * , +, ? , |, (, ), letras_del_alfabeto, 
+     * $(caracter de fin).
+     * @return El siguiente caracter luego de consumir el actual
      */
     public Caracter sgteCaracter() {
         
@@ -82,6 +90,10 @@ public class AnLex {
         return token;
     }
     
+    /**
+     * Borra el caracter consumido y actualiza la cadena.
+     * @return La cadena sin el caracter que ya fue consumido
+     */
     public String consumir() {
         String caracter = "";
         if (!expr.isEmpty()){

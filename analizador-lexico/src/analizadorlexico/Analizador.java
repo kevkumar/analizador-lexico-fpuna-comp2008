@@ -10,11 +10,9 @@
 package analizadorlexico;
 
 /**
- *
- * @author Huguis
- *Esta clase hace uso de la clase AFN para resolver la expresión regular y devolver
- *un AFN con sus estados.
- *BNF
+ * Esta clase hace uso de la clase AFN para resolver la expresión regular y devolver
+ * un AFN con sus estados.
+ * BNF
  * ExpReg ->  simple Aux1
  * Aux1 -> "|" simple Aux1 | E
  * simple -> basico Aux2
@@ -24,6 +22,7 @@ package analizadorlexico;
  * lista ->agrupacion | alfabeto
  * agrupacion -> "(" ExpReg ")"
  * alfabeto -> [letras del alfabeto]
+ * @author Hugo Daniel Meyer - Leopoldo Poletti
  */
 public class Analizador {
     private String expReg;
@@ -33,7 +32,11 @@ public class Analizador {
     private Caracter preanalisis;
     /*Posiciï¿½n dentro de la Cadena*/
     private int pos;
-    /** Creates a new instance of Analizador */
+    /**
+     * Crea una nueva instancia de la clase
+     * @param expReg Expresión Regular
+     * @param alfabeto Alfabeto del Lenguaje
+     */
     public Analizador(String expReg, Alfabeto alfabeto) {
         this.setExpReg(expReg);
         this.setAlfabeto(alfabeto);
@@ -47,22 +50,27 @@ public class Analizador {
         this.setPos(0);
     }
     /**
-     *DEBERIA AGREGAR MAS DETALLES A LOS ERRORES QUE SE LANZAN.
+     * Realiza el match de la expresión regular contra el valor actual
+     * de preanalisis.
+     * @param caracter Caracter con el cual hacer el match
      */
     public void match(Caracter caracter){
         if(this.getPreanalisis().getValor().compareTo(caracter.getValor()) == 0){
             this.setPreanalisis(this.anLexico.sgteCaracter());
             this.setPos(this.pos++);
         }else{
-            System.err.println("Error en la posiciï¿½n"+ this.getPos()+"en el Analizador.java");
+            System.err.println("Error en la posición"+ this.getPos()+"en el Analizador.java");
             System.exit(2);
         }
     }
     
     /* AHORA EMPEZAMOS A RESOLVER CADA UNA DE LAS PRODUCCIONES DEL BNF*/
     
-    /**Resuelve la producciï¿½n inicial, llamando adecuadamente a las demas
-     *producciones, las cuales utilizan los operadores de thompson */
+    /**
+     * Resuelve la producción inicial, llamando adecuadamente a las demas
+     * producciones, las cuales utilizan los operadores de thompson
+     * @return Afn resultante luego del desarrollo de la producción
+     */
     public Afn expReg(){
         Afn afn1=null;
         Afn afn2=null;
@@ -82,6 +90,11 @@ public class Analizador {
         return afn1;
     }
     
+    /**
+     * Resuelve la producción:
+     * simple -> basico Aux2
+     * @return AFN resultante
+     */
     public Afn simple(){
         Afn afns1=null;
         Afn afns2=null;
@@ -93,6 +106,11 @@ public class Analizador {
         return afns1;
     }
     
+    /**
+     * Resuelve la producción:
+     * basico -> lista op
+     * @return AFN resultante de aplicar las operaciones
+     */
     public Afn basico(){
         Afn afnb1=null;
         afnb1 = lista();
@@ -113,6 +131,11 @@ public class Analizador {
         return afnb1;
     }
     
+    /**
+     * Resuelve la producción:
+     * lista ->agrupacion | alfabeto
+     * @return AFN resultante de aplicar las operaciones
+     */
     public Afn lista(){
         Afn afnLis1=null;
         if(this.preanalisis.getValor().equals("(")){
@@ -123,6 +146,13 @@ public class Analizador {
         return afnLis1;
     }
     
+    /**
+     * Resuelve la producción
+     * agrupacion -> "(" ExpReg ")"
+     * Para esto hace matcheo para revisar los parentesis abiertos y
+     * cerrados y llama a la producción inicial de vuelta.
+     * @return AFN resultante
+     */
     public Afn agrupacion(){
         Afn afna1=null;
         Caracter parAbierto = new Caracter();
@@ -137,6 +167,13 @@ public class Analizador {
         return afna1;
     }
     
+    /**
+     * Resuelve la producción:
+     * alfabeto -> [letras del alfabeto]
+     * Para esto utiliza una función que construye un afn
+     * simple con la letra del alfabeto que corresponda
+     * @return AFN resultante
+     */
     public Afn alfabeto(){
         Afn afnAlf1=null;
         if(!this.preanalisis.getValor().trim().equals("$")){
@@ -148,6 +185,12 @@ public class Analizador {
         return afnAlf1;
     }
     
+    /**
+     * Resuelve la producción:
+     * Aux1 -> "|" simple Aux1 | E
+     * Si encuentra el or, llama de vuelta a la producción inicial
+     * @return AFN Resultante
+     */
     public Afn aux1(){
         Afn afnAux1=null;
         Caracter or = new Caracter();
@@ -159,6 +202,13 @@ public class Analizador {
         return afnAux1;
     }
     
+    /**
+     * Resuelve la producción
+     * Aux2 -> basico Aux2 | E
+     * Si se encuentra una agrupación o letra del alfabeto
+     * se llama de vuelta a simple.
+     * @return AFN resultante
+     */
     public Afn aux2(){
         Afn afnAux2=null;
         if ( (!preanalisis.getValor().equals("$")) &&
@@ -170,53 +220,102 @@ public class Analizador {
         return afnAux2;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public String getExpReg() {
         return expReg;
     }
 
+    /**
+     * 
+     * @param expReg 
+     */
     public void setExpReg(String expReg) {
         this.expReg = expReg;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Alfabeto getAlfabeto() {
         return alfabeto;
     }
 
+    /**
+     * 
+     * @param alfabeto 
+     */
     public void setAlfabeto(Alfabeto alfabeto) {
         this.alfabeto = alfabeto;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public AnLex getAnLexico() {
         return anLexico;
     }
 
+    /**
+     * 
+     * @param anLexico 
+     */
     public void setAnLexico(AnLex anLexico) {
         this.anLexico = anLexico;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Afn getAfn() {
         return afn;
     }
 
+    /**
+     * 
+     * @param afn 
+     */
     public void setAfn(Afn afn) {
         this.afn = afn;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public Caracter getPreanalisis() {
         return preanalisis;
     }
 
+    /**
+     * 
+     * @param preanalisis 
+     */
     public void setPreanalisis(Caracter preanalisis) {
         this.preanalisis = preanalisis;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getPos() {
         return pos;
     }
 
+    /**
+     * 
+     * @param pos 
+     */
     public void setPos(int pos) {
         this.pos = pos;
     }
+    
     /**
      *Construye un afn simple con 2 estados y un string que los une, o un arco
      *con el valor del string que se recibe.
@@ -240,10 +339,11 @@ public class Analizador {
         return retorno;
     }
     
+    /**
+     * Llama a la producción inicial, mientras haya algo x consumir.
+     * @return 
+     */
     public Afn analizar(){
-        /*Esto no lo hacemos porque al construir el analizador ya actualizamos el
-         *preanalisis*/
-        //this.preanalisis = this.anLexico.sgteCaracter();
         Afn retorno = null;
         while(!this.preanalisis.getValor().equals("$")){
             retorno = this.expReg();
