@@ -150,6 +150,9 @@ public class AfdMin {
                             itElemGrupo.remove();
                             continue;
                         }else if(grupoAIntroducir.getGrupo().size() > 0){
+                            for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
+                                conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
+                            }
                             this.conjuntoActual.add(grupoAIntroducir);
                             contGrupo++;
                             grupoAIntroducir = new Grupo(contGrupo);
@@ -163,11 +166,20 @@ public class AfdMin {
                         /*SI YA NO AGARRAMOS MAS ESTADOS PORQUE YA ES EL ULTIMO, CARGAMOS
                          *SU GRUPO EN CONJUNTO ACTUAL*/
                         if(!itNextEGrupo.hasNext()){
+                            for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
+                                conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
+                            }
+                            if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
+                                int aux = grupoAIntroducir.getIdGrupo();
+                                grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
+                                this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
+                            }
                             this.conjuntoActual.add(grupoAIntroducir);
                         }
                         while(itNextEGrupo.hasNext()){
                             ConjuntoDeEstados conjAux2 = itNextEGrupo.next();
                             cont = 0;
+                            
                             for(String caracter : alfa){
                                 /*verificamos si apuntan al mismo grupo ambos con la misma variable
                                  Es necesario revisar antes que las entradas de la matriz no sean
@@ -186,13 +198,16 @@ public class AfdMin {
                                     aComparar =this.matrizEstAlf[conjAux.getInicio()][posLetra].getIdGrupo() == 
                                         this.matrizEstAlf[conjAux2.getInicio()][posLetra].getIdGrupo();
                                 }
+                                
                                 if(aComparar){
                                     cont++;
                                 }
+                                
                             }
                             /*VERIFICAMOS SI SE CUMPLIO QUE APUNTAN AL MISMOS GRUPOS CON LAS MISMAS LETRAS*/
                             if(cont == alfa.size()){
-                                conjAux2.setIdGrupo(grupoAIntroducir.getIdGrupo());
+                                /*COMENTE RECIEN*/
+                                //conjAux2.setIdGrupo(grupoAIntroducir.getIdGrupo());
                                 grupoAIntroducir.getGrupo().add(conjAux2);
                                 itNextEGrupo.remove();
                                 itElemGrupo = grupo.getGrupo().iterator();
@@ -209,7 +224,8 @@ public class AfdMin {
                                 }
                             }
                         }
-                        conjAux.setIdGrupo(grupoAIntroducir.getIdGrupo());
+                        /*COMENTE RECIEN*/
+                        //conjAux.setIdGrupo(grupoAIntroducir.getIdGrupo());
                     }
                     
                     /*
@@ -218,8 +234,16 @@ public class AfdMin {
                      */
                     if(grupoAIntroducir.getGrupo().size() > 0 &&
                             !this.conjuntoActual.contains(grupoAIntroducir)){
-                        
+                        for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
+                                conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
+                            }
+                        if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
+                            int aux = grupoAIntroducir.getIdGrupo();
+                            grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
+                            this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
+                        }
                         this.conjuntoActual.add(grupoAIntroducir);
+                        
                         contGrupo++;
                         grupoAIntroducir = new Grupo(contGrupo);
                         
@@ -229,6 +253,9 @@ public class AfdMin {
                     grupo.setIdGrupo(contGrupo);
                     this.conjuntoActual.add(grupo);
                 }
+                
+                /*ACA DEBEMOS ORDENAR EL CONJUNTO INICIAL DE ACUERDO AL ID DEL GRUPO, MANDANDO LOS GRUPOS MÁS GRANDES AL FINAL*/
+                //java.util.Arrays.sort(this.conjuntoInicial);
                 
             }
             /*Si no se crearon nuevos grupos, terminamos el algoritmo*/
