@@ -236,14 +236,7 @@ public class AfdMin {
                                 grupoAIntroducir.getGrupo().add(conjAux2);
                                 itNextEGrupo.remove();
                                 itElemGrupo = grupo.getGrupo().iterator();
-//                                for(String caracter : alfa){
-//                                    posLetra = conseguirIdLetra(caracter);
-//                                    Grupo g = this.dondeEstaElEstado(this.matrizEstAlf[conjAux2.getInicio()][posLetra]);
-//                                    if(g !=null){
-//                                        g.setEnlace(caracter);
-//                                    }
-//                                    grupoAIntroducir.getDestino().add(g);                      
-//                                }  
+
                                 if(conjAux.isConjFinal() | conjAux2.isConjFinal()){
                                     grupoAIntroducir.setFinales(true);
                                 }
@@ -262,15 +255,7 @@ public class AfdMin {
                         for(ConjuntoDeEstados conj : grupoAIntroducir.getGrupo()){
                                 conj.setIdGrupo(grupoAIntroducir.getIdGrupo());
                             }
-//                        if(grupoAIntroducir.getGrupo().size() <= this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().size()){
-//                            int aux = grupoAIntroducir.getIdGrupo();
-//                            grupoAIntroducir.setIdGrupo(this.conjuntoActual.get(this.conjuntoActual.size()-1).getIdGrupo());
-//                            this.conjuntoActual.get(this.conjuntoActual.size()-1).setIdGrupo(aux);
-//                        }
-//                        this.conjuntoActual.add(grupoAIntroducir);
-//                        
-//                        contGrupo++;
-//                        grupoAIntroducir = new Grupo(contGrupo);
+
                         if(this.conjuntoActual.get(this.conjuntoActual.size()-1).getGrupo().contains(this.afd.getEstadosMarcados().get(0))){
                             Grupo g = this.conjuntoActual.get(this.conjuntoActual.size()-1);
                             this.conjuntoActual.remove(this.conjuntoActual.size()-1);
@@ -390,26 +375,7 @@ public class AfdMin {
         }
         
     }
-//    public void construirMatrizMinima(){
-//        this.matrizMinima = new Grupo[this.conjuntoInicial.size()][this.alfa.size()];
-//        int posLetra;
-//        int numeradorGrupo = -1;
-//        for(Grupo g : this.conjuntoInicial){
-//            for()
-//            for(String letra:alfa){
-//                ConjuntoDeEstados conjEst = g.getGrupo().get(0);
-//                posLetra = conseguirIdLetra(letra);
-//                ConjuntoDeEstados aux = this.matrizEstAlf[conjEst.getInicio()][posLetra];
-//                for(Grupo g1 : this.conjuntoInicial){
-//                    if(g1.getGrupo().contains(aux)){
-//                        matrizMinima[g.getIdGrupo()][posLetra] = g1;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        
-//    }
+
     public void renumerarGrupos(){
         int numeracionGrupos[] = new int[this.conjuntoInicial.size()];
         int pos =0;

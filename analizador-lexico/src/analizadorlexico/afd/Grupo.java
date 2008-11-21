@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Grupo que son utilizados dentro del afdminimo
  * 
- * @author Huguis
+ * @author Hugo Daniel Meyer - Leopoldo Poletti
  */
 public class Grupo {
     private ArrayList<ConjuntoDeEstados> grupo;

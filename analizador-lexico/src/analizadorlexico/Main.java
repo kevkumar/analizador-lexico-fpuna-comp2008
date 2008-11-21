@@ -14,7 +14,7 @@ import analizadorlexico.afd.AfdMin;
 
 /**
  *
- * @author Huguis
+ * @author Hugo Daniel Meyer - Leopoldo Poletti
  */
 public class Main {
     

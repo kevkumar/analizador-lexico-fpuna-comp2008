@@ -23,7 +23,7 @@ import java.util.Stack;
 
 /**
  * Clase que representa el AFD Equivalente que se obtiene a partir del AFN Equivalente
- * @author Polo
+ * @author Hugo Daniel Meyer - Leopoldo Poletti
  */   
 public class AFDEquivalente {
     
