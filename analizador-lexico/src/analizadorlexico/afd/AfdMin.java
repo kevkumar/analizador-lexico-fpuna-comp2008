@@ -34,7 +34,7 @@ public class AfdMin {
     
     /*Variables para utilizar en la generacion del archivo .dot*/
     private String grafo;
-    private String nodosPintar;
+    private String nodosPintar="";
 
     public String getNodosPintar() {
         return nodosPintar;
@@ -74,6 +74,7 @@ public class AfdMin {
         this.setConjuntoActual(new ArrayList<Grupo>());
         this.setConjuntoInicial(new ArrayList<Grupo>());
         this.vectorGrupo = new int [afd.getEstadosMarcados().size()];
+        this.alfa = (ArrayList<String>) afd.getAfn().getAlfabeto().getCaracteres();
     }
     
     /**
@@ -132,7 +133,7 @@ public class AfdMin {
             for(Grupo grupo : this.conjuntoInicial){
                 /*si el grupo tiene mas de un elemento lo procesamos, sino
                  *simplemente lo añadimos*/
-                if(grupo.getGrupo().size() > 1){
+                if(grupo.getGrupo().size() > 1 && !(grupo.isFinales())){
                     
                     boolean seCreoNuevoGrupo = true;
                     contGrupo++;
@@ -526,12 +527,15 @@ public class AfdMin {
         try {
             FileWriter fw = new FileWriter(nombreArchivo);
             BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter salida = new PrintWriter(bw);            
+            PrintWriter salida = new PrintWriter(bw);
+            if(!nodosPintar.equals("")){
+                grafo += nodosPintar;
+            }
             String impr = "digraph finite_state_machine {\n" +
                     " size=\"8,5\" \n" +
                     " rankdir=LR \n" +
                     " graph [aspect=\"1.333\"] \n" +                                        
-                    grafo + nodosPintar + "}";                        
+                    grafo + "}";                        
             salida.println(impr);
             salida.close();
             }
