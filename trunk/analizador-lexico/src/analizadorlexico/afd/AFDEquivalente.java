@@ -206,7 +206,7 @@ public class AFDEquivalente {
                 
                 nodo = (HashNodeTransicion)iteracion;                
                 destino = nodo.getEstadosDestino().getInicio(); 
-                if (destino != -1) {
+                if (destino != -1 && nodo.getEstadosDestino().getLista().size() > 0) {
                     elemento = getAdyacencia()[origen][destino];
                     if(elemento == null) 
                         elemento = "";
@@ -372,7 +372,7 @@ public class AFDEquivalente {
         }
     }
     
-    public String imprimirMatriz() {
+    public String imprimirMatriz(AfdMin min) {
         String respuesta = "";
         String espacio = "             ";
         
@@ -384,14 +384,17 @@ public class AFDEquivalente {
         respuesta = respuesta + "<table width=\"200\" border=\"1\">";
   
         respuesta = respuesta + "<tr> <td> <blockquote>&nbsp;</blockquote></td>";    
-        for(int i = 0; i < adyacencia.length; i++){
-            respuesta = respuesta + "<td>" + i + "</td>";
+        for(int i = 0; i < min.alfa.size(); i++){
+            respuesta = respuesta + "<td>" + min.alfa.get(i) + "</td>";
         }        
         respuesta = respuesta + "</tr>";    
         for(int i = 0; i < adyacencia.length; i++){
             respuesta = respuesta + "<br>" + "<tr><td>" + i + "</td>";
-            for(int j = 0; j < adyacencia.length; j++){                                
-                respuesta = respuesta + "<td>" + adyacencia[i][j] + "</td>";
+            for(int j = 0; j < min.alfa.size(); j++){
+                if(min.getMatrizEstAlf()[i][j] == null)
+                    respuesta = respuesta + "<td>" + "-" + "</td>";
+                else
+                    respuesta = respuesta + "<td>" + min.getMatrizEstAlf()[i][j].getIdGrupo() + "</td>";                
             }
             respuesta = respuesta + "</tr>";
         }                        
@@ -416,6 +419,7 @@ public class AFDEquivalente {
                 if(adyacencia[nodo][j] != null && adyacencia[nodo][j].equalsIgnoreCase(arco)){
                     nodo = j;
                     valido = true;
+                    break;
                 }                    
             }
             if(!valido)

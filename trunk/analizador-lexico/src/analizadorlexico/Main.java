@@ -28,14 +28,17 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here                
         Alfabeto alf = new Alfabeto();
-        alf.cargarAlfabeto("a,b,E");
+        alf.cargarAlfabeto("a,b,c,E");
         alf.setHayVacio(true);                
         
         Afn a = new Afn("aabba$", alf);
         a = a.generar();
         AFDEquivalente afd = new AFDEquivalente(a);
         afd.construirTransiciones();
+        afd.validarCadena("aabba");
         AfdMin afdmin = new AfdMin(afd);
+        afdmin.inicializarMatriz();
+        afd.imprimirMatriz(afdmin);
         a.cargaMatriz();
         a.setCadenaEntrada("abb");
         boolean validado = a.validacion();

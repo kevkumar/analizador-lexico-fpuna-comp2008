@@ -657,4 +657,34 @@ public class Afn {
 
     }
     
+    public String imprimirMatriz() {
+        String respuesta = "";
+        String espacio = "             ";
+        
+        respuesta = "Estado inicial:" + espacio + this.getEstadoInicial().getIdEstado();
+        respuesta = respuesta + "<br>Estados finales:" + espacio + "{ ";
+        respuesta = respuesta + this.getEstadoFinal() + " }";
+        respuesta = respuesta + "<br><br><br>Matriz de estados:" + espacio + "<br>";
+        
+        respuesta = respuesta + "<table width=\"200\" border=\"1\">";
+  
+        respuesta = respuesta + "<tr> <td> <blockquote>&nbsp;</blockquote></td>";    
+        for(int i = 0; i < this.matrizAdyacencia.length; i++){
+            respuesta = respuesta + "<td>" + i + "</td>";
+        }        
+        respuesta = respuesta + "</tr>";    
+        for(int i = 0; i < this.matrizAdyacencia.length; i++){
+            respuesta = respuesta + "<br>" + "<tr><td>" + i + "</td>";
+            for(int j = 0; j < this.matrizAdyacencia.length; j++){
+                if(this.matrizAdyacencia[i][j] == null)
+                    respuesta = respuesta + "<td>" + "-" + "</td>";
+                else
+                    respuesta = respuesta + "<td>" + matrizAdyacencia[i][j] + "</td>";                
+            }
+            respuesta = respuesta + "</tr>";
+        }                        
+        respuesta = respuesta + "</table>";
+        return respuesta;        
+    }
+    
 }
