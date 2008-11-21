@@ -663,7 +663,7 @@ public class Afn {
         
         respuesta = "Estado inicial:" + espacio + this.getEstadoInicial().getIdEstado();
         respuesta = respuesta + "<br>Estados finales:" + espacio + "{ ";
-        respuesta = respuesta + this.getEstadoFinal() + " }";
+        respuesta = respuesta + this.getEstadoFinal().getIdEstado() + " }";
         respuesta = respuesta + "<br><br><br>Matriz de estados:" + espacio + "<br>";
         
         respuesta = respuesta + "<table width=\"200\" border=\"1\">";
