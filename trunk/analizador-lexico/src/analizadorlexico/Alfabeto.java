@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *Esta clase nos permitira definir y cargar datos de los alfabetos que utilizarï¿½n
- *las expresiones regulares que luego serán analizadas.
+ *Esta clase nos permitira definir y cargar datos de los alfabetos 
+ *que utilizarán las expresiones regulares que luego serán analizadas.
  * @author Hugo Daniel Meyer-Leopoldo Poletti
  *
  */
@@ -29,7 +29,7 @@ public class Alfabeto {
     }
     /**
      *Esta es la lista que contiene los caracteres del alfabeto efectivamente.
-     *Consideraremos al vacio como un sï¿½mbolo aparte.
+     *Consideraremos al vacio como un símbolo aparte.
      *Los valores del ALFABETO DEBEN SER INTRODUCIDOS SEPARADOS POR COMA
      */
     private List caracteres;

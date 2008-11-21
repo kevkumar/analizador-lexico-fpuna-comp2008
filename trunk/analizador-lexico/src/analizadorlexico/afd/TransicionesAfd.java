@@ -11,7 +11,7 @@ import java.util.Hashtable;
 
 /**
  *
- * @author Polo
+ * @author Hugo Daniel Meyer - Leopoldo Poletti.
  */
 class TransicionesAfd {
 
