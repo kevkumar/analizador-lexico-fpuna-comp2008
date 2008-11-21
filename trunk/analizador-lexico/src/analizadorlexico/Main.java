@@ -31,18 +31,20 @@ public class Main {
         alf.cargarAlfabeto("a,b,c,E");
         alf.setHayVacio(true);                
         
-        Afn a = new Afn("aabba$", alf);
+        Afn a = new Afn("(a|b)*$", alf);
         a = a.generar();
         AFDEquivalente afd = new AFDEquivalente(a);
         afd.construirTransiciones();
         afd.validarCadena("aabba");
         AfdMin afdmin = new AfdMin(afd);
         afdmin.inicializarMatriz();
-        afd.imprimirMatriz(afdmin);
+        String respondeAFD =afd.imprimirMatriz(afdmin);
         a.cargaMatriz();
+        String responde = a.imprimirMatriz();
+        afdmin = afdmin.minimizacion();
+        String respondeAFDmin = afdmin.imprimirMatriz();
         a.setCadenaEntrada("abb");
         boolean validado = a.validacion();
-        afdmin = afdmin.minimizacion();
         boolean validadoAfdMin = afdmin.validarCadena("aabba");
         System.out.println(a.imprimir());
         System.out.println(afd.imprimir());

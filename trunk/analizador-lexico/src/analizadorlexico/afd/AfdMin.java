@@ -586,5 +586,43 @@ public class AfdMin {
     public void setMatrizMinima(Grupo[][] matrizMinima) {
         this.matrizMinima = matrizMinima;
     }
-    
+    public String imprimirMatriz() {
+        String respuesta = "";
+        String espacio = "             ";
+        
+        respuesta = "Estado inicial:" + espacio + 0;
+        respuesta = respuesta + "<br>Estados finales:" + espacio + "{ ";
+        respuesta = respuesta + imprimirEstadosFinales() + " }";
+        respuesta = respuesta + "<br><br><br>Matriz de estados:" + espacio + "<br>";
+        
+        respuesta = respuesta + "<table width=\"200\" border=\"1\">";
+  
+        respuesta = respuesta + "<tr> <td> <blockquote>&nbsp;</blockquote></td>";    
+        for(int i = 0; i < this.alfa.size(); i++){
+            respuesta = respuesta + "<td>" + this.alfa.get(i) + "</td>";
+        }        
+        respuesta = respuesta + "</tr>";    
+        for(int i = 0; i < this.getConjuntoInicial().size(); i++){
+            respuesta = respuesta + "<br>" + "<tr><td>" + i + "</td>";
+            for(int j = 0; j < this.alfa.size(); j++){
+                if(this.matrizMinima[i][j] == null)
+                    respuesta = respuesta + "<td>" + "-" + "</td>";
+                else
+                    respuesta = respuesta + "<td>" + this.matrizMinima[i][j].getIdGrupo() + "</td>";                
+            }
+            respuesta = respuesta + "</tr>";
+        }                        
+        respuesta = respuesta + "</table>";
+        return respuesta;        
+    }
+    private String imprimirEstadosFinales() {        
+        String respuesta = "";
+        int indice = 0;
+        for(Grupo g : this.getConjuntoInicial()){                    
+            if (g.isFinales()) {
+                respuesta = g.getIdGrupo() + ", ";
+            }
+        }
+        return respuesta;
+    }
 }
